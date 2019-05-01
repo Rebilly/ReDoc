@@ -70,7 +70,7 @@ export class SecurityDefs extends React.PureComponent<SecurityDefsProps> {
       <Section id={scheme.sectionId} key={scheme.id}>
         <Row>
           <MiddlePanel>
-            <H2>
+            <H2 className="security-defs-heading">
               <ShareLink to={scheme.sectionId} />
               {scheme.id}
             </H2>

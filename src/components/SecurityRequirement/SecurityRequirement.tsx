@@ -88,7 +88,9 @@ const AuthHeaderColumn = styled.div`
   flex: 1;
 `;
 
-const SecuritiesColumn = styled.div`
+const SecuritiesColumn = styled.div.attrs({
+  className: 'securities-column',
+})`
   width: ${props => props.theme.schema.defaultDetailsWidth};
 `;
 
@@ -114,7 +116,7 @@ export class SecurityRequirements extends React.PureComponent<SecurityRequiremen
       return null;
     }
     return (
-      <Wrap>
+      <Wrap className="security-requirements">
         <AuthHeaderColumn>
           <AuthHeader>Authorizations: </AuthHeader>
         </AuthHeaderColumn>

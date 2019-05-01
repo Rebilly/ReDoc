@@ -18,11 +18,11 @@ export function SanitizedMarkdownHTML(
     <OptionsConsumer>
       {options => (
         <Wrap
+          {...props}
           className={'redoc-markdown ' + (props.className || '')}
           dangerouslySetInnerHTML={{
             __html: sanitize(options.untrustedSpec, props.html),
           }}
-          {...props}
         />
       )}
     </OptionsConsumer>

@@ -26,7 +26,7 @@ export class RequestSamples extends React.Component<RequestSamplesProps> {
         <div>
           <RightPanelHeader> Request samples </RightPanelHeader>
 
-          <Tabs defaultIndex={0}>
+          <Tabs className="right-panel-tabs" defaultIndex={0}>
             <TabList>
               {hasBodySample && <Tab key="payload"> Payload </Tab>}
               {samples.map(sample => (

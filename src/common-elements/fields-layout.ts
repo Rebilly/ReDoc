@@ -74,7 +74,9 @@ export const PropertyNameCell = styled(PropertyCell)`
   ${extensionsHook('PropertyNameCell')};
 `;
 
-export const PropertyDetailsCell = styled.td`
+export const PropertyDetailsCell = styled.td.attrs({
+  className: 'property-details-cell',
+})`
   border-bottom: 1px solid #9fb4be;
   padding: 10px 0;
   width: ${props => props.theme.schema.defaultDetailsWidth};

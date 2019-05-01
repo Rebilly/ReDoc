@@ -34,7 +34,9 @@ export const H3 = styled.h2`
   ${extensionsHook('H3')};
 `;
 
-export const RightPanelHeader = styled.h3`
+export const RightPanelHeader = styled.h3.attrs({
+  className: 'right-panel-header',
+})`
   color: ${({ theme }) => theme.rightPanel.textColor};
 
   ${extensionsHook('RightPanelHeader')};

@@ -14,7 +14,8 @@ export const MiddlePanel = styled.div`
 
 export const Section = styled.div.attrs(props => ({
   [SECTION_ATTR]: props.id,
-}))<{ underlined?: boolean }>`
+  className: props.className ? `section ${props.className}` : 'section',
+})) <{ underlined?: boolean }>`
   padding: ${props => props.theme.spacing.sectionVertical}px 0;
 
   &:last-child {

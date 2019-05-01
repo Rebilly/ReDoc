@@ -1,3 +1,4 @@
+import * as classnames from 'classnames';
 import * as React from 'react';
 import styled from '../styled-components';
 
@@ -19,7 +20,7 @@ class IntShelfIcon extends React.PureComponent<{
   render() {
     return (
       <svg
-        className={this.props.className}
+        className={classnames(this.props.className, 'shelf-icon')}
         style={this.props.style}
         version="1.1"
         viewBox="0 0 24 24"

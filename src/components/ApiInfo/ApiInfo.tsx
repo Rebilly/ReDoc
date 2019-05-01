@@ -77,7 +77,7 @@ export class ApiInfo extends React.Component<ApiInfoProps> {
       null;
 
     return (
-      <Section>
+      <Section className="api-info-section">
         <Row>
           <MiddlePanel className="api-info">
             <ApiHeader>
