@@ -116,6 +116,8 @@ export interface MenuItemLabelType {
   depth: number;
   active: boolean;
   deprecated?: boolean;
+
+  collapsible?: boolean;
   type?: string;
 }
 
@@ -128,9 +130,12 @@ export const MenuItemLabel = styled.label.attrs((props: MenuItemLabelType) => ({
   cursor: pointer;
   color: ${props => (props.active ? props.theme.colors.primary.main : props.theme.menu.textColor)};
   margin: 0;
+  margin-left: ${({ type, depth }) => (type === 'operation' && depth > 1 ? `${depth * 5}px` : '')};
   padding: 12.5px ${props => props.theme.spacing.unit * 4}px;
-  ${({ depth, type, theme }) =>
-    (type === 'section' && depth > 1 && 'padding-left: ' + theme.spacing.unit * 8 + 'px;') || ''}
+  ${({ depth, type, collapsible, theme }) =>
+    (((type === 'section' && depth > 1) || (type === 'tag' && collapsible === true)) &&
+      'padding-left: ' + theme.spacing.unit * 8 + 'px;') ||
+    ''}
   display: flex;
   justify-content: space-between;
   font-family: ${props => props.theme.typography.headings.fontFamily};

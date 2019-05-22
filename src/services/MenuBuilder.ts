@@ -99,6 +99,7 @@ export class MenuBuilder {
     const res: GroupModel[] = [];
     for (const group of groups) {
       const item = new GroupModel('group', group, parent);
+      // item.depth = item.collapsible ? 1 : GROUP_DEPTH;
       item.depth = GROUP_DEPTH;
       item.items = MenuBuilder.getTagsItems(parser, tags, item, group, options);
       res.push(item);
@@ -143,7 +144,7 @@ export class MenuBuilder {
         continue;
       }
       const item = new GroupModel('tag', tag, parent);
-      item.depth = GROUP_DEPTH + 1;
+      item.depth = ((item.parent && item.parent.depth) || GROUP_DEPTH) + 1;
       item.items = this.getOperationsItems(parser, item, tag, item.depth + 1, options);
 
       // don't put empty tag into content, instead put its operations

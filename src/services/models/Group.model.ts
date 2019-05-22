@@ -19,6 +19,8 @@ export class GroupModel implements IMenuItem {
 
   items: ContentItemModel[] = [];
   parent?: GroupModel;
+
+  collapsible: boolean = true;
   externalDocs?: OpenAPIExternalDocumentation;
 
   @observable
@@ -43,10 +45,14 @@ export class GroupModel implements IMenuItem {
     this.description = tagOrGroup.description || '';
     this.parent = parent;
     this.externalDocs = (tagOrGroup as OpenAPITag).externalDocs;
-
-    // groups are active (expanded) by default
+    const isCollapsible = (tagOrGroup as OpenAPITag).collapsible;
+    if (isCollapsible != null) {
+      this.collapsible = Boolean(isCollapsible);
+    } else if (this.type === 'group') {
+      this.collapsible = false;
+    }
     if (this.type === 'group') {
-      this.expanded = true;
+      this.expanded = this.collapsible ? false : true;
     }
   }
 
@@ -66,7 +72,7 @@ export class GroupModel implements IMenuItem {
   @action
   collapse() {
     // disallow collapsing groups
-    if (this.type === 'group') {
+    if (this.collapsible === false) {
       return;
     }
     this.expanded = false;

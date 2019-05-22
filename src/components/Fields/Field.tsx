@@ -65,21 +65,20 @@ export class Field extends React.Component<FieldProps> {
             <FieldDetails {...this.props} />
           </PropertyDetailsCell>
         </tr>
-        {field.expanded &&
-          withSubSchema && (
-            <tr key={field.name + 'inner'}>
-              <PropertyCellWithInner colSpan={2}>
-                <InnerPropertiesWrap>
-                  <Schema
-                    schema={field.schema}
-                    skipReadOnly={this.props.skipReadOnly}
-                    skipWriteOnly={this.props.skipWriteOnly}
-                    showTitle={this.props.showTitle}
-                  />
-                </InnerPropertiesWrap>
-              </PropertyCellWithInner>
-            </tr>
-          )}
+        {field.expanded && withSubSchema && (
+          <tr key={field.name + 'inner'}>
+            <PropertyCellWithInner colSpan={2}>
+              <InnerPropertiesWrap>
+                <Schema
+                  schema={field.schema}
+                  skipReadOnly={this.props.skipReadOnly}
+                  skipWriteOnly={this.props.skipWriteOnly}
+                  showTitle={this.props.showTitle}
+                />
+              </InnerPropertiesWrap>
+            </PropertyCellWithInner>
+          </tr>
+        )}
       </>
     );
   }

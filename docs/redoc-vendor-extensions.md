@@ -22,7 +22,8 @@ Information about tags group
 | Field Name  |	Type	     | Description |
 | :---------- | :--------: | :---------- |
 | name        | string     | The group name |
-| tags        | [ string ] | List of tags to include in this group
+| collapsible | boolean    | Makes the group collapsible in the menu when true |
+| tags        | [ string ] | List of tags to include in this group |
 
 ###### x-tagGroups example
 json
@@ -35,6 +36,7 @@ json
     },
     {
       "name": "Statistics",
+      "collapsible": true,
       "tags": ["Main Stats", "Secondary Stats"]
     }
   ]

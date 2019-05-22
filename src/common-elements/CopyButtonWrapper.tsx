@@ -5,11 +5,7 @@ import { ClipboardService } from '../services/ClipboardService';
 
 export interface CopyButtonWrapperProps {
   data: any;
-  children: (
-    props: {
-      renderCopyButton: (() => React.ReactNode);
-    },
-  ) => React.ReactNode;
+  children: (props: { renderCopyButton: () => React.ReactNode }) => React.ReactNode;
 }
 
 export class CopyButtonWrapper extends React.PureComponent<

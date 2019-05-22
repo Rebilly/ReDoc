@@ -44,22 +44,20 @@ export class ApiInfo extends React.Component<ApiInfoProps> {
       null;
 
     const website =
-      (info.contact &&
-        info.contact.url && (
-          <InfoSpan>
-            URL: <a href={info.contact.url}>{info.contact.url}</a>
-          </InfoSpan>
-        )) ||
+      (info.contact && info.contact.url && (
+        <InfoSpan>
+          URL: <a href={info.contact.url}>{info.contact.url}</a>
+        </InfoSpan>
+      )) ||
       null;
 
     const email =
-      (info.contact &&
-        info.contact.email && (
-          <InfoSpan>
-            {info.contact.name || 'E-mail'}:{' '}
-            <a href={'mailto:' + info.contact.email}>{info.contact.email}</a>
-          </InfoSpan>
-        )) ||
+      (info.contact && info.contact.email && (
+        <InfoSpan>
+          {info.contact.name || 'E-mail'}:{' '}
+          <a href={'mailto:' + info.contact.email}>{info.contact.email}</a>
+        </InfoSpan>
+      )) ||
       null;
 
     const terms =
@@ -70,11 +68,7 @@ export class ApiInfo extends React.Component<ApiInfoProps> {
       )) ||
       null;
 
-    const version =
-      (info.version && (
-        <span>({info.version})</span>
-      )) ||
-      null;
+    const version = (info.version && <span>({info.version})</span>) || null;
 
     return (
       <Section>

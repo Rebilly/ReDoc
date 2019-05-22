@@ -17,14 +17,14 @@ info:
     It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
     tool and [ReDoc](https://github.com/Rebilly/ReDoc) documentation. In addition to standard
     OpenAPI syntax we use a few [vendor extensions](https://github.com/Rebilly/ReDoc/blob/master/docs/redoc-vendor-extensions.md).
-    
+
     # OpenAPI Specification
     This API is documented in **OpenAPI format** and is based on
     [Petstore sample](http://petstore.swagger.io/) provided by [swagger.io](http://swagger.io) team.
     It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
     tool and [ReDoc](https://github.com/Rebilly/ReDoc) documentation. In addition to standard
     OpenAPI syntax we use a few [vendor extensions](https://github.com/Rebilly/ReDoc/blob/master/docs/redoc-vendor-extensions.md).
-    
+
     # Cross-Origin Resource Sharing
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
     And that allows cross-domain communication from the browser.
@@ -38,24 +38,24 @@ info:
     OAuth2 - an open protocol to allow secure authorization in a simple
     and standard method from web, mobile and desktop applications.
 
-    <security-definitions /> 
+    <security-definitions />
 
   version: 1.0.0
   title: Swagger Petstore
-  termsOfService: 'http://swagger.io/terms/'
+  termsOfService: "http://swagger.io/terms/"
   contact:
     name: API Support
     email: apiteam@swagger.io
     url: https://github.com/Rebilly/ReDoc
   x-logo:
-    url: 'https://rebilly.github.io/ReDoc/petstore-logo.png'
+    url: "https://rebilly.github.io/ReDoc/petstore-logo.png"
     altText: Petstore logo
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 externalDocs:
   description: Find out how to create Github repo for your OpenAPI spec.
-  url: 'https://github.com/Rebilly/generator-openapi-repo'
+  url: "https://github.com/Rebilly/generator-openapi-repo"
 tags:
   - name: pet
     description: Everything about your Pets
@@ -63,14 +63,26 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+  - name: SubItem One
+    description: |
+      SubItem One Description!
+  - name: SubItem Two
+    description: |
+      SubItem Two Description!
 x-tagGroups:
   - name: General
+    collapsible: true
     tags:
       - pet
       - store
   - name: User Management
     tags:
       - user
+  - name: Collapsible Group
+    collapsible: true
+    tags:
+      - SubItem One
+      - SubItem Two
 paths:
   /pet:
     parameters:
@@ -88,14 +100,14 @@ paths:
       description: Add new pet to the store inventory.
       operationId: addPet
       responses:
-        '405':
+        "405":
           description: Invalid input
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       x-code-samples:
-        - lang: 'C#'
+        - lang: "C#"
           source: |
             PetStore.v1.Pet pet = new PetStore.v1.Pet();
             pet.setApiKey("your api key");
@@ -124,24 +136,24 @@ paths:
                 var_dump($e->getErrors());
             }
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
     put:
       tags:
         - pet
       summary: Update an existing pet
-      description: ''
+      description: ""
       operationId: updatePet
       responses:
-        '400':
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Pet not found
-        '405':
+        "405":
           description: Validation exception
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       x-code-samples:
         - lang: PHP
           source: |
@@ -156,8 +168,8 @@ paths:
                 var_dump($e->getErrors());
             }
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
-  '/pet/{petId}':
+        $ref: "#/components/requestBodies/Pet"
+  "/pet/{petId}":
     get:
       tags:
         - pet
@@ -174,18 +186,18 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
-        '400':
+                $ref: "#/components/schemas/Pet"
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Pet not found
       security:
         - api_key: []
@@ -193,7 +205,7 @@ paths:
       tags:
         - pet
       summary: Updates a pet in the store with form data
-      description: ''
+      description: ""
       operationId: updatePetWithForm
       parameters:
         - name: petId
@@ -204,12 +216,12 @@ paths:
             type: integer
             format: int64
       responses:
-        '405':
+        "405":
           description: Invalid input
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -226,7 +238,7 @@ paths:
       tags:
         - pet
       summary: Deletes a pet
-      description: ''
+      description: ""
       operationId: deletePet
       parameters:
         - name: api_key
@@ -243,18 +255,18 @@ paths:
             type: integer
             format: int64
       responses:
-        '400':
+        "400":
           description: Invalid pet value
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  '/pet/{petId}/uploadImage':
+            - "write:pets"
+            - "read:pets"
+  "/pet/{petId}/uploadImage":
     post:
       tags:
         - pet
       summary: uploads an image
-      description: ''
+      description: ""
       operationId: uploadFile
       parameters:
         - name: petId
@@ -265,16 +277,16 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
         content:
           application/octet-stream:
@@ -306,25 +318,25 @@ paths:
                 - sold
               default: available
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
+                  $ref: "#/components/schemas/Pet"
+        "400":
           description: Invalid status value
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
   /pet/findByTags:
     get:
       tags:
@@ -346,25 +358,25 @@ paths:
             items:
               type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
+                  $ref: "#/components/schemas/Pet"
+        "400":
           description: Invalid tag value
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
   /store/inventory:
     get:
       tags:
@@ -373,7 +385,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
@@ -389,19 +401,19 @@ paths:
       tags:
         - store
       summary: Place an order for a pet
-      description: ''
+      description: ""
       operationId: placeOrder
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
-        '400':
+                $ref: "#/components/schemas/Order"
+        "400":
           description: Invalid Order
           content:
             application/json:
@@ -412,10 +424,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
-  '/store/order/{orderId}':
+  "/store/order/{orderId}":
     get:
       tags:
         - store
@@ -435,18 +447,18 @@ paths:
             minimum: 1
             maximum: 5
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
-        '400':
+                $ref: "#/components/schemas/Order"
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Order not found
     delete:
       tags:
@@ -465,9 +477,9 @@ paths:
             type: string
             minimum: 1
       responses:
-        '400':
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Order not found
   /user:
     post:
@@ -483,36 +495,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
-  '/user/{username}':
+  "/user/{username}":
     get:
       tags:
         - user
       summary: Get user by user name
-      description: ''
+      description: ""
       operationId: getUserByName
       parameters:
         - name: username
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: "The name that needs to be fetched. Use user1 for testing. "
           required: true
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Invalid username supplied
-        '404':
+        "404":
           description: User not found
     put:
       tags:
@@ -528,15 +540,15 @@ paths:
           schema:
             type: string
       responses:
-        '400':
+        "400":
           description: Invalid user supplied
-        '404':
+        "404":
           description: User not found
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
     delete:
@@ -553,40 +565,40 @@ paths:
           schema:
             type: string
       responses:
-        '400':
+        "400":
           description: Invalid username supplied
-        '404':
+        "404":
           description: User not found
   /user/createWithArray:
     post:
       tags:
         - user
       summary: Creates list of users with given input array
-      description: ''
+      description: ""
       operationId: createUsersWithArrayInput
       responses:
         default:
           description: successful operation
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
   /user/createWithList:
     post:
       tags:
         - user
       summary: Creates list of users with given input array
-      description: ''
+      description: ""
       operationId: createUsersWithListInput
       responses:
         default:
           description: successful operation
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
   /user/login:
     get:
       tags:
         - user
       summary: Logs user into the system
-      description: ''
+      description: ""
       operationId: loginUser
       parameters:
         - name: username
@@ -602,7 +614,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           headers:
             X-Rate-Limit:
@@ -627,19 +639,19 @@ paths:
                 type: string
               examples:
                 response:
-                  value:  <Message> OK </Message>
+                  value: <Message> OK </Message>
             text/plain:
               examples:
                 response:
-                  value:  OK
-        '400':
+                  value: OK
+        "400":
           description: Invalid username/password supplied
   /user/logout:
     get:
       tags:
         - user
       summary: Logs out current logged in user session
-      description: ''
+      description: ""
       operationId: logoutUser
       responses:
         default:
@@ -659,7 +671,7 @@ components:
     Cat:
       description: A representation of a cat
       allOf:
-        - $ref: '#/components/schemas/Pet'
+        - $ref: "#/components/schemas/Pet"
         - type: object
           properties:
             huntingSkill:
@@ -679,7 +691,7 @@ components:
         id:
           description: Category ID
           allOf:
-            - $ref: '#/components/schemas/Id'
+            - $ref: "#/components/schemas/Id"
         name:
           description: Category name
           type: string
@@ -696,7 +708,7 @@ components:
     Dog:
       description: A representation of a dog
       allOf:
-        - $ref: '#/components/schemas/Pet'
+        - $ref: "#/components/schemas/Pet"
         - type: object
           properties:
             packSize:
@@ -710,7 +722,7 @@ components:
     HoneyBee:
       description: A representation of a honey bee
       allOf:
-        - $ref: '#/components/schemas/Pet'
+        - $ref: "#/components/schemas/Pet"
         - type: object
           properties:
             honeyPerDay:
@@ -729,11 +741,11 @@ components:
         id:
           description: Order ID
           allOf:
-            - $ref: '#/components/schemas/Id'
+            - $ref: "#/components/schemas/Id"
         petId:
           description: Pet ID
           allOf:
-            - $ref: '#/components/schemas/Id'
+            - $ref: "#/components/schemas/Id"
         quantity:
           type: integer
           format: int32
@@ -764,9 +776,9 @@ components:
       discriminator:
         propertyName: petType
         mapping:
-          cat: '#/components/schemas/Cat'
-          dog: '#/components/schemas/Dog'
-          bee: '#/components/schemas/HoneyBee'
+          cat: "#/components/schemas/Cat"
+          dog: "#/components/schemas/Dog"
+          bee: "#/components/schemas/HoneyBee"
       properties:
         id:
           externalDocs:
@@ -774,11 +786,11 @@ components:
             url: "https://example.com"
           description: Pet ID
           allOf:
-            - $ref: '#/components/schemas/Id'
+            - $ref: "#/components/schemas/Id"
         category:
           description: Categories this pet belongs to
           allOf:
-            - $ref: '#/components/schemas/Category'
+            - $ref: "#/components/schemas/Category"
         name:
           description: The name given to a pet
           type: string
@@ -795,7 +807,7 @@ components:
             format: url
         friend:
           allOf:
-            - $ref: '#/components/schemas/Pet'
+            - $ref: "#/components/schemas/Pet"
         tags:
           description: Tags attached to the pet
           type: array
@@ -804,7 +816,7 @@ components:
             name: tag
             wrapped: true
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
         status:
           type: string
           description: Pet status in the store
@@ -823,7 +835,7 @@ components:
         id:
           description: Tag ID
           allOf:
-            - $ref: '#/components/schemas/Id'
+            - $ref: "#/components/schemas/Id"
         name:
           description: Tag name
           type: string
@@ -834,11 +846,11 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         pet:
           oneOf:
-            - $ref: '#/components/schemas/Pet'
-            - $ref: '#/components/schemas/Tag'
+            - $ref: "#/components/schemas/Pet"
+            - $ref: "#/components/schemas/Tag"
         username:
           description: User supplied username
           type: string
@@ -866,7 +878,7 @@ components:
             as well as digits
           format: password
           minLength: 8
-          pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])'
+          pattern: "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])"
           example: drowssaP123
         phone:
           description: User phone number in international format
@@ -888,10 +900,10 @@ components:
             allOf:
               - description: My Pet
                 title: Pettie
-              - $ref: '#/components/schemas/Pet'
+              - $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            type: 'object'
+            type: "object"
             properties:
               name:
                 type: string
@@ -904,7 +916,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       description: List of user object
       required: true
   securitySchemes:
@@ -915,10 +927,10 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+          authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
           scopes:
-            'write:pets': modify pets in your account
-            'read:pets': read your pets
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
     api_key:
       description: >
         For this sample, you can use the api key `special-key` to test the

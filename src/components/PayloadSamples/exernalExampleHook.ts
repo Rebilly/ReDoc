@@ -13,22 +13,19 @@ export function useExternalExample(example: ExampleModel, mimeType: string) {
 
   prevRef.current = example;
 
-  useEffect(
-    () => {
-      const load = async () => {
-        setIsLoading(true);
-        try {
-          value.current = await example.getExternalValue(mimeType);
-        } catch (e) {
-          value.current = e;
-        }
-        setIsLoading(false);
-      };
+  useEffect(() => {
+    const load = async () => {
+      setIsLoading(true);
+      try {
+        value.current = await example.getExternalValue(mimeType);
+      } catch (e) {
+        value.current = e;
+      }
+      setIsLoading(false);
+    };
 
-      load();
-    },
-    [example, mimeType],
-  );
+    load();
+  }, [example, mimeType]);
 
   return value.current;
 }

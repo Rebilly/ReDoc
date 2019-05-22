@@ -28,12 +28,11 @@ export class ResponseView extends React.Component<{ response: ResponseModel }> {
           code={code}
           opened={expanded}
         />
-        {expanded &&
-          !empty && (
-            <ResponseDetailsWrap>
-              <ResponseDetails response={this.props.response} />
-            </ResponseDetailsWrap>
-          )}
+        {expanded && !empty && (
+          <ResponseDetailsWrap>
+            <ResponseDetails response={this.props.response} />
+          </ResponseDetailsWrap>
+        )}
       </div>
     );
   }
