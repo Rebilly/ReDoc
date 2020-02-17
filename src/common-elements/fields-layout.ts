@@ -11,15 +11,16 @@ export const PropertiesTableCaption = styled.caption`
 `;
 
 export const PropertyCell = styled.td<{ kind?: string }>`
-  border-left: 1px solid ${props => props.theme.schema.linesColor};
+  border-left: ${({ theme }) => (theme.typography.direction === 'rtl') ? 0 : '1px solid ' } ${props => props.theme.schema.linesColor};
+  border-right: ${({ theme }) => (theme.typography.direction === 'rtl') ? '1px solid ' : 0 } ${props => props.theme.schema.linesColor};
   box-sizing: border-box;
   position: relative;
-  padding: 10px 10px 10px 0;
+  padding: ${({ theme }) => (theme.typography.direction === 'rtl') ? '10px 0 10px 10px' : '10px 10px 10px 0' }
 
   tr:first-of-type > &,
   tr.last > & {
-    border-left-width: 0;
-    background-position: top left;
+    border-width: 0;
+    background-position: ${({ theme }) => (theme.typography.direction === 'rtl') ? 'top right' : 'top left' };
     background-repeat: no-repeat;
     background-size: 1px 100%;
   }
@@ -79,6 +80,7 @@ export const PropertyDetailsCell = styled.td`
   padding: 10px 0;
   width: ${props => props.theme.schema.defaultDetailsWidth};
   box-sizing: border-box;
+  direction: ltr;
 
   tr.expanded & {
     border-bottom: none;
@@ -88,7 +90,7 @@ export const PropertyDetailsCell = styled.td`
 export const PropertyBullet = styled.span`
   color: ${props => props.theme.schema.linesColor};
   font-family: ${props => props.theme.typography.code.fontFamily};
-  margin-right: 10px;
+  margin: ${({ theme }) => (theme.typography.direction === 'rtl') ? '0 0 0 10px ' : '0 10px 0 0' }
 
   &::before {
     content: '';
@@ -108,7 +110,9 @@ export const PropertyBullet = styled.span`
     height: 7px;
   }
 `;
-
+export const WrappedShelfIcon = styled.i`
+  display: inline-block
+`;
 export const InnerPropertiesWrap = styled.div`
   padding: ${({ theme }) => theme.schema.nestingSpacing};
 `;

@@ -6,6 +6,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
     <Field
       field={
         FieldModel {
+          "$value": "",
           "deprecated": false,
           "description": "",
           "example": undefined,
@@ -56,6 +57,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
     <Field
       field={
         FieldModel {
+          "$value": "",
           "deprecated": false,
           "description": "",
           "example": undefined,

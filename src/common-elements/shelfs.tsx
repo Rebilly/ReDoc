@@ -37,9 +37,10 @@ export const ShelfIcon = styled(IntShelfIcon)`
   height: ${props => props.size || '18px'};
   width: ${props => props.size || '18px'};
   vertical-align: middle;
-  float: ${props => props.float || ''};
+  float: ${props => (props.theme.typography.direction === 'rtl') ? 'right' : props.float || '' };
   transition: transform 0.2s ease-out;
-  transform: rotateZ(${props => directionMap[props.direction || 'down']});
+  transform: rotateZ(${props => (props.theme.typography.direction === 'rtl') ?
+  (directionMap[ props.direction === 'right' ? 'left' : 'down' || 'down']) : (directionMap[props.direction || 'down'])});
 
   polygon {
     fill: ${props =>

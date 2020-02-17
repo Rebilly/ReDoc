@@ -99,17 +99,17 @@ const defaultTheme: ThemeInterface = {
     fontWeightRegular: '400',
     fontWeightBold: '600',
     fontWeightLight: '300',
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Roboto, sans-serif, Vazir',
     smoothing: 'antialiased',
     optimizeSpeed: true,
     headings: {
-      fontFamily: 'Montserrat, sans-serif',
+      fontFamily: 'Montserrat, sans-serif, Vazir',
       fontWeight: '400',
       lineHeight: '1.6em',
     },
     code: {
       fontSize: '13px',
-      fontFamily: 'Courier, monospace',
+      fontFamily: 'Courier, monospace, Vazir',
       lineHeight: ({ typography }) => typography.lineHeight,
       fontWeight: ({ typography }) => typography.fontWeightRegular,
       color: '#e53935',
@@ -153,6 +153,10 @@ const defaultTheme: ThemeInterface = {
   },
   codeSample: {
     backgroundColor: ({ rightPanel }) => darken(0.1, rightPanel.backgroundColor),
+    textColor: ({ rightPanel }) => rightPanel.textColor,
+  },
+  styledPre: {
+    maxHeight: '500px',
   },
 };
 
@@ -277,6 +281,8 @@ export interface ResolvedThemeInterface {
     fontWeightBold: string;
     fontFamily: string;
 
+    direction?: 'ltr' | 'rtl',
+
     smoothing: string;
     optimizeSpeed: boolean;
 
@@ -324,9 +330,13 @@ export interface ResolvedThemeInterface {
   };
   codeSample: {
     backgroundColor: string;
+    textColor: string;
   };
 
   extensionsHook?: (name: string, props: any) => string;
+  styledPre: {
+    maxHeight: string;
+  };
 }
 
 export type primitive = string | number | boolean | undefined | null;

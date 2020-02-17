@@ -10,6 +10,7 @@ export const RedocWrap = styled.div`
   display: flex;
   position: relative;
   text-align: left;
+  direction: ${theme.typography.direction};
 
   -webkit-font-smoothing: ${theme.typography.smoothing};
   font-smoothing: ${theme.typography.smoothing};
@@ -42,7 +43,7 @@ export const BackgroundStub = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 0;
+  ${({ theme }) => theme.typography.direction === 'rtl' ? 'left: 0;' : 'right: 0;'};
   width: ${({ theme }) => {
     if (theme.rightPanel.width.endsWith('%')) {
       const percents = parseInt(theme.rightPanel.width, 10);

@@ -7,7 +7,7 @@ declare module 'styled-components' {
     T extends object,
     O extends object = {},
     A extends keyof any = never
-  > extends ThemedStyledFunctionBase<C, T, O, A> {
+    > extends ThemedStyledFunctionBase<C, T, O, A> {
     withConfig(config: any): any;
     // tslint:enable:unified-signatures
   }

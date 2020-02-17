@@ -1,35 +1,40 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { AppStore } from '../../services';
 
 import { ExternalDocumentation } from '../ExternalDocumentation/ExternalDocumentation';
 import { AdvancedMarkdown } from '../Markdown/AdvancedMarkdown';
 
 import { H1, H2, MiddlePanel, Row, Section, ShareLink } from '../../common-elements';
 import { ContentItemModel } from '../../services/MenuBuilder';
-import { GroupModel, OperationModel } from '../../services/models';
+import { GroupModel } from '../../services/models';
 import { Operation } from '../Operation/Operation';
 
-@observer
-export class ContentItems extends React.Component<{
+export interface ContentItemsProps {
   items: ContentItemModel[];
-}> {
+  store: AppStore;
+}
+
+@observer
+export class ContentItems extends React.Component<ContentItemsProps> {
   render() {
-    const items = this.props.items;
+    const { items, store } = this.props;
     if (items.length === 0) {
       return null;
     }
-    return items.map(item => <ContentItem item={item} key={item.id} />);
+    return items.map(item => <ContentItem store={store} item={item} key={item.id} />);
   }
 }
 
 export interface ContentItemProps {
   item: ContentItemModel;
+  store: AppStore;
 }
 
 @observer
 export class ContentItem extends React.Component<ContentItemProps> {
   render() {
-    const item = this.props.item;
+    const { item, store } = this.props;
     let content;
     const { type } = item;
     switch (type) {
@@ -41,7 +46,7 @@ export class ContentItem extends React.Component<ContentItemProps> {
         content = <SectionItem {...this.props} />;
         break;
       case 'operation':
-        content = <OperationItem item={item as any} />;
+        content = <Operation securitySchemes={store.spec.securitySchemes} operation={item as any} />;
         break;
       default:
         content = <SectionItem {...this.props} />;
@@ -54,7 +59,7 @@ export class ContentItem extends React.Component<ContentItemProps> {
             {content}
           </Section>
         )}
-        {item.items && <ContentItems items={item.items} />}
+        {item.items && <ContentItems store={store} items={item.items} />}
       </>
     );
   }
@@ -88,14 +93,5 @@ export class SectionItem extends React.Component<ContentItemProps> {
         )}
       </>
     );
-  }
-}
-
-@observer
-export class OperationItem extends React.Component<{
-  item: OperationModel;
-}> {
-  render() {
-    return <Operation operation={this.props.item} />;
   }
 }

@@ -4,6 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>%PAGE_TITLE%</title>
+  <meta name="description" content="%PAGE_DESCRIPTION%" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="%PAGE_TITLE%">
+  <meta property="og:description" content="%PAGE_DESCRIPTION%">
+  <meta property="og:image" content="%PAGE_FAVICON%">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" href="%PAGE_FAVICON%">
   <style>
     body {
@@ -16,11 +24,15 @@
     }
   </style>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+  <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet">
 </head>
 
 <body>
-  <redoc spec-url="%SPEC_URL%" %REDOC_OPTIONS%></redoc>
+  <div id="redoc"></div>
   <script src="redoc.standalone.js"></script>
+  <script>
+    Redoc.init('%SPEC_URL%', %REDOC_OPTIONS%, document.getElementById('redoc'));
+  </script>
 </body>
 
 </html>

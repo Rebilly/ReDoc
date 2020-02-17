@@ -17,7 +17,7 @@
     "quotemark": [true, "single", "avoid-template", "jsx-double"],
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
     "arrow-parens": [true, "ban-single-arg-parens"],
-    "no-submodule-imports": [true, "prismjs", "perfect-scrollbar", "react-dom", "core-js", "memoize-one"],
+    "no-submodule-imports": [true, "prismjs", "perfect-scrollbar", "react-dom", "core-js", "brace", "memoize-one"],
     "object-literal-key-quotes": [true, "as-needed"],
     "no-unused-expression": [true, "allow-tagged-template"],
     "semicolon": [true, "always", "ignore-bound-class-methods"],

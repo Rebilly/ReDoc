@@ -131,8 +131,11 @@ export const MenuItemLabel = styled.label.attrs((props: MenuItemLabelType) => ({
   padding: 12.5px ${props => props.theme.spacing.unit * 4}px;
   ${({ depth, type, theme }) =>
     (type === 'section' && depth > 1 && 'padding-left: ' + theme.spacing.unit * 8 + 'px;') || ''}
+  direction: ${({ type, theme}) =>
+  (((['section', 'group', 'tag'].indexOf(type || '') > -1) && (theme.typography.direction === 'rtl')) ? 'rtl' : 'ltr')};
   display: flex;
   justify-content: space-between;
+  text-align: ${({ theme }) => (theme.typography.direction === 'rtl') ? 'right' : 'left'};
   font-family: ${props => props.theme.typography.headings.fontFamily};
   ${props => menuItemDepth[props.depth]};
   background-color: ${props => (props.active ? menuItemActiveBg(props.depth, props) : '')};

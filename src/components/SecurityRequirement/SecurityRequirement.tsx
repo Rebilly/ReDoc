@@ -67,18 +67,16 @@ export class SecurityRequirement extends React.PureComponent<SecurityRequirement
     const security = this.props.security;
     return (
       <SecurityRequirementOrWrap>
-        {security.schemes.map(scheme => {
-          return (
-            <SecurityRequirementAndWrap key={scheme.id}>
-              <Link to={scheme.sectionId}>{scheme.id}</Link>
-              {scheme.scopes.length > 0 && ' ('}
-              {scheme.scopes.map(scope => (
-                <ScopeName key={scope}>{scope}</ScopeName>
-              ))}
-              {scheme.scopes.length > 0 && ') '}
-            </SecurityRequirementAndWrap>
-          );
-        })}
+        {security.schemes.map(scheme => (
+          <SecurityRequirementAndWrap key={scheme.id}>
+            <Link to={scheme.sectionId}>{scheme.id}</Link>
+            {scheme.scopes.length > 0 && ' ('}
+            {scheme.scopes.map(scope => (
+              <ScopeName key={scope}>{scope}</ScopeName>
+            ))}
+            {scheme.scopes.length > 0 && ') '}
+          </SecurityRequirementAndWrap>
+        ))}
       </SecurityRequirementOrWrap>
     );
   }

@@ -35,3 +35,7 @@ cli/index.js
 .ghpages-tmp
 stats.json
 /package-lock.json
+/.idea/
+
+# npmrc for local npm
+.npmrc

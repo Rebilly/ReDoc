@@ -29,6 +29,7 @@ export const SearchInput = styled.input.attrs(() => ({
   color: ${props => props.theme.menu.textColor};
   background-color: transparent;
   outline: none;
+  text-align: ${({ theme }) => (theme.typography.direction === 'rtl') ? 'center' : 'inherit'};
 `;
 
 export const SearchIcon = styled((props: { className?: string }) => (

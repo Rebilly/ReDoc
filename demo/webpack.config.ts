@@ -56,6 +56,26 @@ const babelHotLoader = {
   },
 };
 
+let proxy = {};
+let https = false;
+//we are using our own proxy here
+if (process.env.PROXY && process.env.USERNAME && process.env.PASSWORD) {
+  proxy = {
+    "/api": {
+      auth: `${process.env.USERNAME}:${process.env.PASSWORD}`,
+      target: process.env.PROXY,
+      "secure": false,
+      changeOrigin: true,
+      ws: true,
+      xfwd: true
+    }
+  }
+  https = true;
+  console.log('Using proxy configuration provided with command line, https in use.\n');
+} else {
+  console.log('Using proxy from PC/PE local server\n');
+}
+
 export default (env: { playground?: boolean; bench?: boolean } = {}, { mode }) => ({
   entry: [
     root('../src/polyfills.ts'),
@@ -79,7 +99,11 @@ export default (env: { playground?: boolean; bench?: boolean } = {}, { mode }) =
     port: 9090,
     disableHostCheck: true,
     stats: 'minimal',
+    https,
+    proxy,
   },
+
+  devtool: 'source-map',
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],

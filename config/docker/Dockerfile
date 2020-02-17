@@ -7,7 +7,7 @@
 
 FROM node:alpine
 
-RUN apk update && apk add --no-cache git 
+RUN apk update && apk add --no-cache git
 
 # Install dependencies
 WORKDIR /build
@@ -24,10 +24,11 @@ RUN npm run bundle:standalone
 FROM nginx:alpine
 
 ENV PAGE_TITLE="ReDoc"
+ENV PAGE_DESCRIPTION=""
 ENV PAGE_FAVICON="favicon.png"
 ENV SPEC_URL="http://petstore.swagger.io/v2/swagger.json"
 ENV PORT=80
-ENV REDOC_OPTIONS=
+ENV REDOC_OPTIONS="{}"
 
 # copy files to the nginx folder
 COPY --from=0 build/bundles /usr/share/nginx/html

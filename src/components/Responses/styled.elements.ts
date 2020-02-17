@@ -11,7 +11,7 @@ export const StyledResponseTitle = styled(ResponseTitle)`
   line-height: 1.5em;
   background-color: #f2f2f2;
   cursor: pointer;
-
+  text-align:${({ theme }) => (theme.typography.direction === 'rtl') ? 'right' : 'left'};
   color: ${props => props.theme.colors.responses[props.type].color};
   background-color: ${props => props.theme.colors.responses[props.type].backgroundColor};
 
@@ -35,7 +35,7 @@ export const ResponseDetailsWrap = styled.div`
 `;
 
 export const HeadersCaption = styled(UnderlinedHeader.withComponent('caption'))`
-  text-align: left;
+  text-align: ${({ theme }) => (theme.typography.direction === 'rtl') ? 'right' : 'left'};
   margin-top: 1em;
   caption-side: top;
 `;

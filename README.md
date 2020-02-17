@@ -43,7 +43,8 @@
   - [x] ~~React rewrite~~
   - [x] ~~docs pre-rendering (performance and SEO)~~
   - [ ] ability to simple branding/styling
-  - [ ] built-in API Console
+  - [x] built-in API Console
+  - [ ] support RTL languages
 
 ## Releases
 **Important:** all the 2.x releases are deployed to npm and can be used via jsdeliver:
@@ -226,6 +227,7 @@ You can use all of the following options with standalone version on <redoc> tag 
 * `disableSearch` - disable search indexing and search box.
 * `expandDefaultServerVariables` - enable expanding default server variables, default `false`.
 * `expandResponses` - specify which responses to expand by default by response codes. Values should be passed as comma-separated list without spaces e.g. `expandResponses="200,201"`. Special value `"all"` expands all responses by default. Be careful: this option can slow-down documentation rendering time.
+* `enableConsole` - you should set true if you want to use the built-in console, default `false`
 * `hideDownloadButton` - do not show "Download" spec button. **THIS DOESN'T MAKE YOUR SPEC PRIVATE**, it just hides the button.
 * `hideHostname` - if set, the protocol and hostname is not shown in the operation definition.
 * `hideLoading` - do not show loading animation. Useful for small docs.

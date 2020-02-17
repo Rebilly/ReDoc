@@ -1,10 +1,10 @@
-import { renderToString } from 'react-dom/server';
-import * as React from 'react';
-import { ServerStyleSheet } from 'styled-components';
-// @ts-ignore
-import { Redoc, createStore } from '../../';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import * as React from 'react';
+import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
+
+import { createStore, Redoc } from '../../';
 
 const yaml = require('yaml-js');
 const http = require('http');
@@ -19,7 +19,7 @@ const server = http.createServer(async (request, response) => {
     fs.createReadStream('bundles/redoc.standalone.js', 'utf8').pipe(response);
   } else if (request.url === '/') {
     const spec = yaml.load(readFileSync(resolve(__dirname, '../openapi.yaml')));
-    let store = await createStore(spec, 'path/to/spec.yaml');
+    const store = await createStore(spec, 'path/to/spec.yaml');
 
     const sheet = new ServerStyleSheet();
 
@@ -40,6 +40,7 @@ const server = http.createServer(async (request, response) => {
       </style>
       <script src="redoc.standalone.js"></script>
       <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+      <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet">
       ${css}
     </head>
     <body>

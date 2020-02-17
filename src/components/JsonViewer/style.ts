@@ -7,7 +7,7 @@ export const jsonStyles = css`
 
   font-family: ${props => props.theme.typography.code.fontFamily};
   font-size: ${props => props.theme.typography.code.fontSize};
-
+  direction: ltr;
   white-space: ${({ theme }) => (theme.typography.code.wrap ? 'pre-wrap' : 'pre')};
   contain: content;
   overflow-x: auto;

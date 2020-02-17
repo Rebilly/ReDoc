@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ShelfIcon } from '../../common-elements';
-import { OperationModel } from '../../services';
+import { ClipboardService, OperationModel } from '../../services';
 import { Markdown } from '../Markdown/Markdown';
 import { OptionsContext } from '../OptionsProvider';
 import { SelectOnClick } from '../SelectOnClick/SelectOnClick';
@@ -21,10 +21,13 @@ export interface EndpointProps {
 
   hideHostname?: boolean;
   inverted?: boolean;
+  handleUrl: any;
 }
 
 export interface EndpointState {
   expanded: boolean;
+  selectedItem: number;
+  tooltipShown: boolean;
 }
 
 export class Endpoint extends React.Component<EndpointProps, EndpointState> {
@@ -32,6 +35,8 @@ export class Endpoint extends React.Component<EndpointProps, EndpointState> {
     super(props);
     this.state = {
       expanded: false,
+      selectedItem: 0,
+      tooltipShown: false,
     };
   }
 
@@ -48,6 +53,9 @@ export class Endpoint extends React.Component<EndpointProps, EndpointState> {
       <OptionsContext.Consumer>
         {options => (
           <OperationEndpointWrap>
+            <div className={this.state.tooltipShown === true ? 'showToolTip' : 'hideToolTip'}>
+              Copied
+            </div>
             <EndpointInfo onClick={this.toggle} expanded={expanded} inverted={inverted}>
               <HttpVerb type={operation.httpVerb}> {operation.httpVerb}</HttpVerb>{' '}
               <ServerRelativeURL>{operation.path}</ServerRelativeURL>
@@ -60,14 +68,14 @@ export class Endpoint extends React.Component<EndpointProps, EndpointState> {
               />
             </EndpointInfo>
             <ServersOverlay expanded={expanded}>
-              {operation.servers.map(server => {
+              {operation.servers.map((server, index) => {
                 const normalizedUrl = options.expandDefaultServerVariables
                   ? expandDefaultServerVariables(server.url, server.variables)
                   : server.url;
                 return (
-                  <ServerItem key={normalizedUrl}>
-                    <Markdown source={server.description || ''} compact={true} />
-                    <SelectOnClick>
+                  <ServerItem className={this.state.selectedItem === index ? 'selected' : ''} key={normalizedUrl}>
+                    <Markdown onSelectUrl={this.handleUrl.bind(this, index)} source={server.description || ''} compact={true} />
+                    <SelectOnClick onSelectUrl={this.handleUrl.bind(this, index)}>
                       <ServerUrl>
                         <span>
                           {hideHostname || options.hideHostname
@@ -85,5 +93,20 @@ export class Endpoint extends React.Component<EndpointProps, EndpointState> {
         )}
       </OptionsContext.Consumer>
     );
+  }
+
+  handleUrl(url: number) {
+    this.props.handleUrl(url);
+    this.setState({
+      selectedItem: url,
+      expanded: false,
+      tooltipShown: true,
+    });
+    ClipboardService.copyCustom(this.props.operation.servers[url].url + this.props.operation.path);
+    setTimeout(() => {
+      this.setState({
+        tooltipShown: false,
+      });
+    }, 1000);
   }
 }

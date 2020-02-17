@@ -50,7 +50,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
               {this.props.children}
             </MenuItemTitle>
             {(item.depth > 0 && item.items.length > 0 && (
-              <ShelfIcon float={'right'} direction={item.expanded ? 'down' : 'right'} />
+                <ShelfIcon float={'right'} direction={item.expanded ? 'down' : 'right'} />
             )) ||
               null}
           </MenuItemLabel>

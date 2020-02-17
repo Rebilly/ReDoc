@@ -9,11 +9,20 @@ export async function loadAndBundleSpec(specUrlOrObject: object | string): Promi
     resolve: { http: { withCredentials: false } },
   } as object)) as any;
 
+  let v2Specs = spec;
   if (spec.swagger !== undefined) {
-    return convertSwagger2OpenAPI(spec);
-  } else {
-    return spec;
+    v2Specs = await convertSwagger2OpenAPI(spec);
   }
+
+  // we can derefrence the schema here for future use.
+  // import { cloneDeep } from 'lodash';
+  // const derefrencedSpec = await parser.dereference(cloneDeep(spec));
+  // const derefed = await parser.dereference(v2Specs, {
+  //  resolve: { http: { withCredentials: false } },
+  // } as object);
+
+  return v2Specs;
+
 }
 
 export function convertSwagger2OpenAPI(spec: any): Promise<OpenAPISpec> {

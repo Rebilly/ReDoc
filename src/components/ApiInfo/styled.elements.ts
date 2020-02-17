@@ -28,7 +28,15 @@ export const DownloadButton = styled.a`
 export const InfoSpan = styled.span`
   &::before {
     content: '|';
-    display: inline-block;
+    display: ${props => (props.theme.typography.direction === 'ltr') ? 'inline-block' : 'none'};
+    opacity: 0.5;
+    width: ${delimiterWidth}px;
+    text-align: center;
+  }
+
+  &::after {
+    content: '|';
+    display: ${props => (props.theme.typography.direction === 'rtl') ? 'inline-block' : 'none'};
     opacity: 0.5;
     width: ${delimiterWidth}px;
     text-align: center;

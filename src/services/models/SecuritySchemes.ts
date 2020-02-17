@@ -1,3 +1,4 @@
+import {observable} from 'mobx';
 import { OpenAPISecurityScheme, Referenced } from '../../types';
 import { SECURITY_SCHEMES_SECTION_PREFIX } from '../../utils/openapi';
 import { OpenAPIParser } from '../OpenAPIParser';
@@ -21,6 +22,9 @@ export class SecuritySchemeModel {
   openId?: {
     connectUrl: string;
   };
+
+  @observable
+  token?: string = '';
 
   constructor(parser: OpenAPIParser, id: string, scheme: Referenced<OpenAPISecurityScheme>) {
     const info = parser.deref(scheme);
@@ -52,9 +56,14 @@ export class SecuritySchemeModel {
       this.flows = info.flows;
     }
   }
+
+  setToken(token: string) {
+    this.token = token;
+  }
 }
 
 export class SecuritySchemesModel {
+  @observable
   schemes: SecuritySchemeModel[];
 
   constructor(parser: OpenAPIParser) {
