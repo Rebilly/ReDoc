@@ -15,6 +15,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
           "kind": "field",
           "name": "packSize",
           "required": false,
+          "requiredNames": undefined,
           "schema": SchemaModel {
             "activeOneOf": 0,
             "constraints": Array [],
@@ -65,6 +66,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
           "kind": "field",
           "name": "type",
           "required": true,
+          "requiredNames": undefined,
           "schema": SchemaModel {
             "activeOneOf": 0,
             "constraints": Array [],

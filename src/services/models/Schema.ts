@@ -320,20 +320,43 @@ function buildFields(
     fields = sortByRequired(fields, !options.sortPropsAlphabetically ? schema.required : undefined);
   }
 
+  const explicitFieldNames = fields.map(field => field.name);
+  const implicitRequiredNames = schema.required === undefined ? [] :
+    schema.required.filter(fieldName => !explicitFieldNames.includes(fieldName));
+
   if (typeof additionalProps === 'object' || additionalProps === true) {
+    const additionalPropertiesName = typeof additionalProps === 'object'
+            ? additionalProps['x-additionalPropertiesName'] || 'property name'
+            : 'property name';
+
     fields.push(
       new FieldModel(
         parser,
         {
-          name: (typeof additionalProps === 'object'
-            ? additionalProps['x-additionalPropertiesName'] || 'property name'
-            : 'property name'
-          ).concat('*'),
-          required: false,
+          name: additionalPropertiesName.concat('*'),
+          requiredNames: implicitRequiredNames,
+          required: implicitRequiredNames.length > 0,
           schema: additionalProps === true ? {} : additionalProps,
           kind: 'additionalProperties',
         },
         $ref + '/additionalProperties',
+        options,
+      ),
+    );
+  } else if (implicitRequiredNames.length > 0) {
+    const firstImplicitName = additionalProps === false ? '(incorrectly required)' :
+      (implicitRequiredNames.shift() || '');
+    fields.push(
+      new FieldModel(
+        parser,
+        {
+          name: firstImplicitName,
+          requiredNames: implicitRequiredNames,
+          required: true,
+          schema: {},
+          kind: 'field',
+        },
+        $ref + '/properties/' + firstImplicitName,
         options,
       ),
     );

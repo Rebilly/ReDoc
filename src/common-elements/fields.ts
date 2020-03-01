@@ -45,6 +45,16 @@ export const RequiredLabel = styled(FieldLabel.withComponent('div'))`
   line-height: 1;
 `;
 
+export const RequiredImplicitFieldName = styled(FieldLabel.withComponent('div'))`
+  line-height: 20px;
+  white-space: nowrap;
+  font-size: 1em;
+  font-family: ${props => props.theme.typography.code.fontFamily};
+  font-style: normal;
+  font-weight: normal;
+  margin-left: 20px;
+`;
+
 export const RecursiveLabel = styled(FieldLabel)`
   color: ${({ theme }) => theme.colors.warning.main};
   font-size: 13px;

@@ -35,6 +35,7 @@ export class FieldModel {
   schema: SchemaModel;
   name: string;
   required: boolean;
+  requiredNames?: string[];
   description: string;
   example?: string;
   deprecated: boolean;
@@ -57,6 +58,7 @@ export class FieldModel {
     this.name = infoOrRef.name || info.name;
     this.in = info.in;
     this.required = !!info.required;
+    this.requiredNames = info.requiredNames;
 
     let fieldSchema = info.schema;
     let serializationMime = '';

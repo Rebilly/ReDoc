@@ -1,7 +1,11 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { ClickablePropertyNameCell, RequiredLabel } from '../../common-elements/fields';
+import {
+  ClickablePropertyNameCell,
+  RequiredImplicitFieldName,
+  RequiredLabel,
+} from '../../common-elements/fields';
 import { FieldDetails } from './FieldDetails';
 
 import {
@@ -34,7 +38,7 @@ export class Field extends React.Component<FieldProps> {
   };
   render() {
     const { className, field, isLast } = this.props;
-    const { name, expanded, deprecated, required, kind } = field;
+    const { name, expanded, deprecated, required, requiredNames, kind } = field;
     const withSubSchema = !field.schema.isPrimitive && !field.schema.isCircular;
 
     const paramName = withSubSchema ? (
@@ -53,6 +57,13 @@ export class Field extends React.Component<FieldProps> {
       <PropertyNameCell className={deprecated ? 'deprecated' : undefined} kind={kind} title={name}>
         <PropertyBullet />
         {name}
+        {requiredNames && (
+          requiredNames.map((value, idx) => {
+            return (
+              <RequiredImplicitFieldName key={idx}> {value} </RequiredImplicitFieldName>
+            );
+          })
+        )}
         {required && <RequiredLabel> required </RequiredLabel>}
       </PropertyNameCell>
     );

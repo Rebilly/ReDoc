@@ -398,10 +398,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties:
-                  type: integer
-                  format: int32
+                allOf:
+                  - type: object
+                    additionalProperties:
+                      x-additionalPropertiesName: status
+                      type: integer
+                      format: int32
+                  - required:
+                    - inStock
+                    - soldOut
+
       security:
         - api_key: []
   /store/order:
