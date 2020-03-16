@@ -14,6 +14,8 @@ export interface ObjectDescriptionProps {
   exampleRef?: string;
   showReadOnly?: boolean;
   showWriteOnly?: boolean;
+  showObjectTitle?: boolean;
+  showObjectDescription?: boolean;
   parser: OpenAPIParser;
   options: RedocNormalizedOptions;
 }
@@ -53,7 +55,12 @@ export class SchemaDefinition extends React.PureComponent<ObjectDescriptionProps
   }
 
   render() {
-    const { showReadOnly = true, showWriteOnly = false } = this.props;
+    const {
+      showReadOnly = true,
+      showWriteOnly = false,
+      showObjectTitle = false,
+      showObjectDescription = false,
+    } = this.props;
     return (
       <Section>
         <Row>
@@ -61,6 +68,8 @@ export class SchemaDefinition extends React.PureComponent<ObjectDescriptionProps
             <Schema
               skipWriteOnly={!showWriteOnly}
               skipReadOnly={!showReadOnly}
+              skipObjectTitle={!showObjectTitle}
+              skipObjectDescription={!showObjectDescription}
               schema={this.mediaModel.schema}
             />
           </MiddlePanel>

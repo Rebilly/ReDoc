@@ -13,9 +13,10 @@ import { OneOfSchema } from './OneOfSchema';
 import { l } from '../../services/Labels';
 
 export interface SchemaOptions {
-  showTitle?: boolean;
   skipReadOnly?: boolean;
   skipWriteOnly?: boolean;
+  skipObjectTitle?: boolean;
+  skipObjectDescription?: boolean;
 }
 
 export interface SchemaProps extends SchemaOptions {
