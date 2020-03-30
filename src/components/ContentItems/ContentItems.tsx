@@ -36,6 +36,8 @@ export class ContentItem extends React.Component<ContentItemProps> {
       case 'group':
         content = null;
         break;
+      case 'field':
+        return null;
       case 'tag':
       case 'section':
         content = <SectionItem {...this.props} />;

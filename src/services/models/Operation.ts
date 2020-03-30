@@ -138,6 +138,7 @@ export class OperationModel implements IMenuItem {
     this.active = false;
   }
 
+  @action
   expand() {
     if (this.parent) {
       this.parent.expand();

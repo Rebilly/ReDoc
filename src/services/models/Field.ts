@@ -6,10 +6,13 @@ import {
   OpenAPIParameterStyle,
   Referenced,
 } from '../../types';
+import { IMenuItem } from '../MenuStore';
 import { RedocNormalizedOptions } from '../RedocNormalizedOptions';
 
 import { extractExtensions } from '../../utils/openapi';
 import { OpenAPIParser } from '../OpenAPIParser';
+import { MediaContentModel } from './MediaContent';
+import { ResponseModel } from './Response';
 import { SchemaModel } from './Schema';
 
 function getDefaultStyleValue(parameterLocation: OpenAPIParameterLocation): OpenAPIParameterStyle {
@@ -28,9 +31,27 @@ function getDefaultStyleValue(parameterLocation: OpenAPIParameterLocation): Open
 /**
  * Field or Parameter model ready to be used by components
  */
-export class FieldModel {
+export class FieldModel implements IMenuItem {
   @observable
   expanded: boolean | undefined;
+
+  depth: number;
+  items = [];
+
+  ready?: boolean = true;
+  active: boolean = false;
+
+  id: string;
+  absoluteIdx?: number;
+  parent?: IMenuItem;
+
+  containerContentModel?: MediaContentModel;
+  containerOneOf?: SchemaModel;
+  activeContentModel?: number;
+  activeOneOf?: number;
+  responseContainer?: ResponseModel;
+
+  type = 'field' as 'field';
 
   schema: SchemaModel;
   name: string;
@@ -91,5 +112,42 @@ export class FieldModel {
   @action
   toggle() {
     this.expanded = !this.expanded;
+  }
+
+  @action
+  activate() {
+    if (this.parent) {
+      this.parent.activate();
+      if (this.responseContainer !== undefined) {
+        this.responseContainer.expand();
+      }
+      if (this.containerContentModel !== undefined && this.activeContentModel !== undefined) {
+        this.containerContentModel.activate(this.activeContentModel);
+      }
+      if (this.containerOneOf !== undefined && this.activeOneOf !== undefined) {
+        this.containerOneOf.activateOneOf(this.activeOneOf);
+      }
+    }
+  }
+
+  @action
+  deactivate() {
+    if (this.parent) {
+      this.parent.deactivate();
+    }
+  }
+
+  @action
+  expand() {
+    if (this.parent) {
+      if (this.parent.type === 'field') {
+        this.parent.expanded = true;
+      }
+      this.parent.expand();
+    }
+  }
+
+  collapse() {
+    // Do nothing
   }
 }

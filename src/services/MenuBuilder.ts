@@ -1,11 +1,11 @@
 import { OpenAPIOperation, OpenAPIParameter, OpenAPISpec, OpenAPITag, Referenced } from '../types';
 import {
-  isOperationName,
+  isOperationName, safeSlugify,
   SECURITY_DEFINITIONS_COMPONENT_NAME,
   setSecuritySchemePrefix,
 } from '../utils';
 import { MarkdownRenderer } from './MarkdownRenderer';
-import { GroupModel, OperationModel } from './models';
+import { FieldModel, GroupModel, OperationModel } from './models';
 import { OpenAPIParser } from './OpenAPIParser';
 import { RedocNormalizedOptions } from './RedocNormalizedOptions';
 
@@ -28,12 +28,13 @@ export interface TagGroup {
 }
 
 export const GROUP_DEPTH = 0;
-export type ContentItemModel = GroupModel | OperationModel;
+export type ContentItemModel = GroupModel | OperationModel | FieldModel;
 
 export class MenuBuilder {
   /**
    * Builds page content structure based on tags
    */
+
   static buildStructure(
     parser: OpenAPIParser,
     options: RedocNormalizedOptions,
@@ -146,7 +147,7 @@ export class MenuBuilder {
       return tagsMap[tagName];
     });
 
-    const res: Array<GroupModel | OperationModel> = [];
+    const res: Array<GroupModel | OperationModel | FieldModel> = [];
     for (const tag of tags) {
       if (!tag) {
         continue;
@@ -186,18 +187,142 @@ export class MenuBuilder {
     tag: TagInfo,
     depth: number,
     options: RedocNormalizedOptions,
-  ): OperationModel[] {
+  ): ContentItemModel[] {
     if (tag.operations.length === 0) {
       return [];
     }
 
-    const res: OperationModel[] = [];
+    const res: ContentItemModel[] = [];
     for (const operationInfo of tag.operations) {
       const operation = new OperationModel(parser, operationInfo, parent, options);
       operation.depth = depth;
       res.push(operation);
+      res.push(...this.getOperationFields(operation, depth + 1));
     }
     return res;
+  }
+
+  static getOperationFields(
+    parent: OperationModel,
+    depth: number,
+  ): FieldModel[] {
+
+    const fields: FieldModel[] = [];
+
+    if (parent.parameters !== undefined) {
+      const parameters = parent.parameters;
+      fields.push(...this.getFields(parameters, parent, 'parameters', depth));
+    }
+
+    if (parent.requestBody !== undefined) {
+      const body = parent.requestBody;
+      const bodyFields: FieldModel[] = [];
+
+      if (body.content) {
+        const mediaTypes = body.content.mediaTypes;
+        mediaTypes.forEach(mediaType => {
+          const type = mediaType.name.split('/')[1];
+          const schema = mediaType.schema;
+          if (schema && schema.oneOf) { // One of
+            let active = 0;
+            schema.oneOf.forEach(s => {
+              bodyFields.push(...this.getFields(s.fields, parent, 'body/' + type + '/' + s.title, depth).map(f => {
+                f.containerContentModel = body.content;
+                f.activeContentModel = mediaTypes.indexOf(mediaType);
+                f.containerOneOf = schema;
+                f.activeOneOf = active;
+                return f;
+              }));
+              active++;
+            });
+          } else if (schema && schema.fields) {
+            bodyFields.push(...this.getFields(schema.fields, parent, 'body/' + type, depth).map(f => {
+              f.containerContentModel = body.content;
+              f.activeContentModel = mediaTypes.indexOf(mediaType);
+              return f;
+            }));
+          }
+        });
+        fields.push(...bodyFields);
+      }
+    }
+
+    if (parent.responses !== undefined) {
+      const responses = parent.responses;
+      const responseFields: FieldModel[] = [];
+
+      responses.forEach(response => {
+        responseFields.push(...this.getFields(response.headers, parent, 'responses/' + response.code + '/headers', depth).map(r => {
+          r.responseContainer = response;
+          return r;
+        }));
+
+        if (response.content) {
+          const mediaTypes = response.content.mediaTypes;
+          mediaTypes.forEach(mediaType => {
+            const type = mediaType.name.split('/')[1];
+            const schema = mediaType.schema;
+            if (schema && schema.oneOf) { // One of
+              let active = 0;
+              schema.oneOf.forEach(s => {
+                responseFields.push(...this.getFields(s.fields, parent, 'responses/' + response.code + '/' + type + '/' + s.title, depth).map(f => {
+                  f.responseContainer = response;
+                  f.containerContentModel = response.content;
+                  f.activeContentModel = mediaTypes.indexOf(mediaType);
+                  f.containerOneOf = schema;
+                  f.activeOneOf = active;
+                  return f;
+                }));
+                active++;
+              });
+            } else if (schema && schema.fields) {
+              responseFields.push(...this.getFields(schema.fields, parent, 'responses/' + response.code + '/' + type, depth).map(f => {
+                f.responseContainer = response;
+                f.containerContentModel = response.content;
+                f.activeContentModel = mediaTypes.indexOf(mediaType);
+                return f;
+              }));
+            }
+          });
+        }
+      });
+      fields.push(...responseFields);
+    }
+
+    return fields;
+  }
+
+  static getFields(fields, parent, section, depth): FieldModel[] {
+    const temp: FieldModel[] = [];
+    fields.forEach(field => {
+      temp.push(...this.getDeepFields(field, parent, section, depth));
+    });
+    return temp.filter((field, index, self) => {
+      return index === self.findIndex(f => {
+        return f.id === field.id;
+      });
+    });
+  }
+
+  static getDeepFields(field: FieldModel, parent: ContentItemModel, section: string, depth: number): FieldModel[] {
+    const temp: FieldModel[] = [];
+
+    field.id = parent.id.includes(section) ? parent.id + '/' + safeSlugify(field.name) : parent.id + '/' + section + '/' + safeSlugify(field.name);
+    field.parent = parent;
+    temp.push(field);
+
+    if (field.schema.fields !== undefined) {
+      field.schema.fields.forEach(fieldInner => {
+        temp.push(...this.getDeepFields(fieldInner, field, section, depth + 1));
+      });
+    }
+    if (field.schema.items !== undefined && field.schema.items.fields !== undefined) {
+      field.schema.items.fields.forEach(fieldInner => {
+        temp.push(...this.getDeepFields(fieldInner, field, section, depth + 1));
+      });
+    }
+
+    return temp;
   }
 
   /**

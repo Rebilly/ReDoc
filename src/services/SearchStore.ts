@@ -23,16 +23,13 @@ export class SearchStore<T> {
   searchWorker = getWorker();
 
   indexItems(groups: Array<IMenuItem | OperationModel>) {
-    const recurse = items => {
-      items.forEach(group => {
-        if (group.type !== 'group') {
-          this.add(group.name, group.description || '', group.id);
-        }
-        recurse(group.items);
-      });
-    };
+    groups.forEach(group => {
+      if (group.type !== 'group') {
+        // @ts-ignore
+        this.add(group.name, group.description || '', group.id);
+      }
+    });
 
-    recurse(groups);
     this.searchWorker.done();
   }
 

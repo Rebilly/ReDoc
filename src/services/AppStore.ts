@@ -86,7 +86,7 @@ export class AppStore {
     if (!this.options.disableSearch) {
       this.search = new SearchStore();
       if (createSearchIndex) {
-        this.search.indexItems(this.menu.items);
+        this.search.indexItems(this.menu.flatItems);
       }
 
       this.disposer = observe(this.menu, 'activeItemIdx', change => {

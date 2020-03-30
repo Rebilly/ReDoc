@@ -6,14 +6,17 @@ exports[`Components SchemaView discriminator should correctly render discriminat
     <Field
       field={
         FieldModel {
+          "active": false,
           "deprecated": false,
           "description": "",
           "example": undefined,
           "expanded": undefined,
           "explode": false,
           "in": undefined,
+          "items": Array [],
           "kind": "field",
           "name": "packSize",
+          "ready": true,
           "required": false,
           "schema": SchemaModel {
             "activeOneOf": 0,
@@ -47,6 +50,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
             "typePrefix": "",
             "writeOnly": false,
           },
+          "type": "field",
         }
       }
       isLast={false}
@@ -56,14 +60,17 @@ exports[`Components SchemaView discriminator should correctly render discriminat
     <Field
       field={
         FieldModel {
+          "active": false,
           "deprecated": false,
           "description": "",
           "example": undefined,
           "expanded": undefined,
           "explode": false,
           "in": undefined,
+          "items": Array [],
           "kind": "field",
           "name": "type",
+          "ready": true,
           "required": true,
           "schema": SchemaModel {
             "activeOneOf": 0,
@@ -97,6 +104,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
             "typePrefix": "",
             "writeOnly": false,
           },
+          "type": "field",
         }
       }
       isLast={true}

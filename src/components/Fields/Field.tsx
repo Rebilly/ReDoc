@@ -68,7 +68,7 @@ export class Field extends React.Component<FieldProps> {
       <>
         <tr className={isLast ? 'last ' + className : className}>
           {paramName}
-          <PropertyDetailsCell>
+          <PropertyDetailsCell data-section-id={this.props.field.id}>
             <FieldDetails {...this.props} />
           </PropertyDetailsCell>
         </tr>

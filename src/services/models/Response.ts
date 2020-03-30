@@ -58,4 +58,8 @@ export class ResponseModel {
   toggle() {
     this.expanded = !this.expanded;
   }
+
+  expand() {
+    this.expanded = true;
+  }
 }
