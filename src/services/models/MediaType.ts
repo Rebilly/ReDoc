@@ -1,12 +1,10 @@
 import * as Sampler from 'openapi-sampler';
-
 import { OpenAPIMediaType } from '../../types';
-import { RedocNormalizedOptions } from '../RedocNormalizedOptions';
-import { SchemaModel } from './Schema';
-
 import { isJsonLike, mapValues } from '../../utils';
 import { OpenAPIParser } from '../OpenAPIParser';
+import { RedocNormalizedOptions } from '../RedocNormalizedOptions';
 import { ExampleModel } from './Example';
+import { SchemaModel } from './Schema';
 
 export class MediaTypeModel {
   examples?: { [name: string]: ExampleModel };
@@ -54,7 +52,7 @@ export class MediaTypeModel {
       skipNonRequired: this.isRequestType && this.onlyRequiredInSamples,
       skipWriteOnly: !this.isRequestType,
     };
-    if (this.schema && this.schema.oneOf) {
+    if (this.schema && this.schema.oneOf && this.schema.oneOf.length > 0) {
       this.examples = {};
       for (const subSchema of this.schema.oneOf) {
         const sample = Sampler.sample(subSchema.rawSchema, samplerOptions, parser.spec);

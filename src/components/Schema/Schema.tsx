@@ -1,16 +1,12 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-
 import { RecursiveLabel, TypeName, TypeTitle } from '../../common-elements/fields';
-import { FieldDetails } from '../Fields/FieldDetails';
-
+import { l } from '../../services/Labels';
 import { FieldModel, SchemaModel } from '../../services/models';
-
+import { FieldDetails } from '../Fields/FieldDetails';
 import { ArraySchema } from './ArraySchema';
 import { ObjectSchema } from './ObjectSchema';
 import { OneOfSchema } from './OneOfSchema';
-
-import { l } from '../../services/Labels';
 
 export interface SchemaOptions {
   showTitle?: boolean;
@@ -43,10 +39,9 @@ export class Schema extends React.Component<Partial<SchemaProps>> {
 
     if (discriminatorProp !== undefined) {
       if (!oneOf || !oneOf.length) {
-        throw new Error(
-          `Looks like you are using discriminator wrong: you don't have any definition inherited from the ${schema.title}`,
-        );
+        return <ObjectSchema {...(this.props as any)} />;
       }
+
       return (
         <ObjectSchema
           {...{ ...this.props, schema: oneOf![schema.activeOneOf] }}

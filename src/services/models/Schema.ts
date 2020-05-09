@@ -1,12 +1,6 @@
 import { action, observable } from 'mobx';
-
-import { OpenAPIExternalDocumentation, OpenAPISchema, Referenced } from '../../types';
-
-import { OpenAPIParser } from '../OpenAPIParser';
-import { RedocNormalizedOptions } from '../RedocNormalizedOptions';
-import { FieldModel } from './Field';
-
 import { MergedOpenAPISchema } from '../';
+import { OpenAPIExternalDocumentation, OpenAPISchema, Referenced } from '../../types';
 import {
   detectType,
   extractExtensions,
@@ -18,8 +12,10 @@ import {
   sortByField,
   sortByRequired,
 } from '../../utils/';
-
 import { l } from '../Labels';
+import { OpenAPIParser } from '../OpenAPIParser';
+import { RedocNormalizedOptions } from '../RedocNormalizedOptions';
+import { FieldModel } from './Field';
 
 // TODO: refactor this model, maybe use getters instead of copying all the values
 export class SchemaModel {
@@ -225,7 +221,7 @@ export class SchemaModel {
     const discriminator = getDiscriminator(schema)!;
     this.discriminatorProp = discriminator.propertyName;
     const implicitInversedMapping = parser.findDerived([
-      ...(schema.parentRefs || []),
+      ...[], //...(schema.parentRefs || []), // including parentRefs in all cases is wrong (it is correct for a class with subclasses, but not for one, which only has a superclass)
       this.pointer,
     ]);
 
@@ -312,6 +308,8 @@ export class SchemaModel {
       innerSchema.title = name;
       return innerSchema;
     });
+
+    this.fields = buildFields(parser, schema, this.pointer, this.options);
   }
 }
 

@@ -13,7 +13,7 @@ describe('Models', () => {
       const spec = require('../fixtures/discriminator.json');
       parser = new OpenAPIParser(spec, undefined, opts);
       const schema = new SchemaModel(parser, spec.components.schemas.Foo, '', opts);
-      expect(schema.oneOf).toHaveLength(1);
+      expect(schema.oneOf).toHaveLength(0);
       expect(schema.discriminatorProp).toEqual('type');
     });
 

@@ -1,15 +1,13 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-
-import { SchemaModel } from '../../services/models';
-
 import { PropertiesTable, PropertiesTableCaption } from '../../common-elements/fields-layout';
+import { SchemaModel } from '../../services/models';
+import { mapWithLast } from '../../utils';
 import { Field } from '../Fields/Field';
+import { Markdown } from '../Markdown/Markdown';
+import { OptionsContext } from '../OptionsProvider';
 import { DiscriminatorDropdown } from './DiscriminatorDropdown';
 import { SchemaProps } from './Schema';
-
-import { mapWithLast } from '../../utils';
-import { OptionsContext } from '../OptionsProvider';
 
 export interface ObjectSchemaProps extends SchemaProps {
   discriminator?: {
@@ -47,37 +45,40 @@ export class ObjectSchema extends React.Component<ObjectSchemaProps> {
     const expandByDefault = this.context.expandSingleSchemaField && filteredFields.length === 1;
 
     return (
-      <PropertiesTable>
-        {showTitle && <PropertiesTableCaption>{this.props.schema.title}</PropertiesTableCaption>}
-        <tbody>
-          {mapWithLast(filteredFields, (field, isLast) => {
-            return (
-              <Field
-                key={field.name}
-                isLast={isLast}
-                field={field}
-                expandByDefault={expandByDefault}
-                renderDiscriminatorSwitch={
-                  (discriminator &&
-                    discriminator.fieldName === field.name &&
-                    (() => (
-                      <DiscriminatorDropdown
-                        parent={this.parentSchema}
-                        enumValues={field.schema.enum}
-                      />
-                    ))) ||
-                  undefined
-                }
-                className={field.expanded ? 'expanded' : undefined}
-                showExamples={false}
-                skipReadOnly={this.props.skipReadOnly}
-                skipWriteOnly={this.props.skipWriteOnly}
-                showTitle={this.props.showTitle}
-              />
-            );
-          })}
-        </tbody>
-      </PropertiesTable>
+      <div>
+        <Markdown compact={true} inline={false} source={this.props.schema.description} />
+        <PropertiesTable>
+          {showTitle && <PropertiesTableCaption>{this.props.schema.title}</PropertiesTableCaption>}
+          <tbody>
+            {mapWithLast(filteredFields, (field, isLast) => {
+              return (
+                <Field
+                  key={field.name}
+                  isLast={isLast}
+                  field={field}
+                  expandByDefault={expandByDefault}
+                  renderDiscriminatorSwitch={
+                    (discriminator &&
+                      discriminator.fieldName === field.name &&
+                      (() => (
+                        <DiscriminatorDropdown
+                          parent={this.parentSchema}
+                          enumValues={field.schema.enum}
+                        />
+                      ))) ||
+                    undefined
+                  }
+                  className={field.expanded ? 'expanded' : undefined}
+                  showExamples={false}
+                  skipReadOnly={this.props.skipReadOnly}
+                  skipWriteOnly={this.props.skipWriteOnly}
+                  showTitle={this.props.showTitle}
+                />
+              );
+            })}
+          </tbody>
+        </PropertiesTable>
+      </div>
     );
   }
 }
