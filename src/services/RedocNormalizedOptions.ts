@@ -2,6 +2,7 @@ import defaultTheme, { ResolvedThemeInterface, resolveTheme, ThemeInterface } fr
 import { querySelector } from '../utils/dom';
 import { isNumeric, mergeObjects } from '../utils/helpers';
 
+import { ExtensionComponentMeta } from '../components/Fields/Extensions';
 import { LabelsConfigRaw, setRedocLabels } from './Labels';
 import { MDXComponentMeta } from './MarkdownRenderer';
 
@@ -24,6 +25,7 @@ export interface RedocRawOptions {
   hideSingleRequestSampleTab?: boolean | string;
   menuToggle?: boolean | string;
   jsonSampleExpandLevel?: number | string | 'all';
+  extensionsComponents?: Dict<ExtensionComponentMeta>;
   hideSchemaTitles?: boolean | string;
   payloadSampleIdx?: number;
   expandSingleSchemaField?: boolean | string;
@@ -166,6 +168,7 @@ export class RedocNormalizedOptions {
   menuToggle: boolean;
   jsonSampleExpandLevel: number;
   enumSkipQuotes: boolean;
+  extensionsComponents: Dict<ExtensionComponentMeta>;
   hideSchemaTitles: boolean;
   payloadSampleIdx: number;
   expandSingleSchemaField: boolean;
@@ -229,5 +232,6 @@ export class RedocNormalizedOptions {
     this.allowedMdComponents = raw.allowedMdComponents || {};
 
     this.expandDefaultServerVariables = argValueToBoolean(raw.expandDefaultServerVariables);
+    this.extensionsComponents = raw.extensionsComponents || {};
   }
 }
