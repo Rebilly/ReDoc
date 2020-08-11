@@ -17,8 +17,11 @@ import { RequestSamples } from '../RequestSamples/RequestSamples';
 import { ResponsesList } from '../Responses/ResponsesList';
 import { ResponseSamples } from '../ResponseSamples/ResponseSamples';
 import { SecurityRequirements } from '../SecurityRequirement/SecurityRequirement';
+import {SECTION_ATTR} from '../../services';
 
-const OperationRow = styled(Row)`
+const OperationRow = styled(Row).attrs(props => ({
+  [SECTION_ATTR]: props.id,
+}))`
   backface-visibility: hidden;
   contain: content;
   overflow: hidden;
@@ -43,7 +46,7 @@ export class Operation extends React.Component<OperationProps> {
     return (
       <OptionsContext.Consumer>
         {options => (
-          <OperationRow>
+          <OperationRow id={operation.operationHash}>
             <MiddlePanel>
               <H2>
                 <ShareLink to={operation.id} />

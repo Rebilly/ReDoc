@@ -30,7 +30,7 @@ describe('Menu', () => {
     cy.location('hash').should('equal', '#tag/pet');
 
     cy.contains('[role=menuitem]', 'Find pet by ID').click({ force: true });
-    cy.location('hash').should('equal', '#operation/getPetById');
+    cy.location('hash').should('equal', '#tag/pet/operation/getPetById');
   });
 
   it('should deactivate tag when other is activated', () => {

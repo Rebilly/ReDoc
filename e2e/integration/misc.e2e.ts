@@ -21,12 +21,12 @@ describe('Servers', () => {
       initReDoc(win, spec, {});
 
       // TODO add cy-data attributes
-      cy.get('[data-section-id="operation/addPet"]').should(
+      cy.get('[data-section-id="tag/pet/operation/addPet"]').should(
         'contain',
         'http://petstore.swagger.io/v2/pet',
       );
 
-      cy.get('[data-section-id="operation/addPet"]').should(
+      cy.get('[data-section-id="tag/pet/operation/addPet"]').should(
         'contain',
         'http://petstore.swagger.io/sandbox/pet',
       );
@@ -40,7 +40,7 @@ describe('Servers', () => {
       initReDoc(win, spec, {});
 
       // TODO add cy-data attributes
-      cy.get('[data-section-id="operation/addPet"]').should(
+      cy.get('[data-section-id="tag/pet/operation/addPet"]').should(
         'contain',
         'http://localhost:' + win.location.port + '/pet',
       );
@@ -55,7 +55,7 @@ describe('Servers', () => {
       initReDoc(win, spec, {});
 
       // TODO add cy-data attributes
-      cy.get('[data-section-id="operation/addPet"]').should(
+      cy.get('[data-section-id="tag/pet/operation/addPet"]').should(
         'contain',
         'http://localhost:' + win.location.port + '/pet',
       );
