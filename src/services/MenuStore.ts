@@ -8,8 +8,11 @@ import { ScrollService } from './ScrollService';
 import { flattenByProp, SECURITY_SCHEMES_SECTION_PREFIX } from '../utils';
 import { GROUP_DEPTH } from './MenuBuilder';
 
+import {RedocNormalizedOptions} from "./RedocNormalizedOptions";
+
 export type MenuItemGroupType = 'group' | 'tag' | 'section';
 export type MenuItemType = MenuItemGroupType | 'operation';
+
 
 /** Generic interface for MenuItems */
 export interface IMenuItem {
@@ -74,11 +77,21 @@ export class MenuStore {
    *
    * @param spec [SpecStore](#SpecStore) which contains page content structure
    * @param scroll scroll service instance used by this menu
+   * @param history
+   * @param options
    */
-  constructor(spec: SpecStore, public scroll: ScrollService, public history: HistoryService) {
+  constructor(spec: SpecStore, public scroll: ScrollService, public history: HistoryService, public options: RedocNormalizedOptions) {
     this.items = spec.contentItems;
-
     this.flatItems = flattenByProp(this.items || [], 'items');
+    if (this.options.sortNavigationTags) {
+      this.flatItems.map((item) => {
+        if (item.type === "tag") {
+          item.items.sort((a, b) => (a.name > b.name) ? 1 : -1)
+        }
+      });
+      this.flatItems = flattenByProp(this.items || [], 'items');
+    }
+
     this.flatItems.forEach((item, idx) => (item.absoluteIdx = idx));
 
     this.subscribe();
