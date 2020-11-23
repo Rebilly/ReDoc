@@ -41,6 +41,7 @@ export interface RedocRawOptions {
   expandDefaultServerVariables?: boolean;
   maxDisplayedEnumValues?: number;
   ignoreNamedSchemas?: string[] | string;
+  minCharacterLengthToInitSearch?: number;
 }
 
 function argValueToBoolean(val?: string | boolean, defaultValue?: boolean): boolean {
@@ -194,6 +195,7 @@ export class RedocNormalizedOptions {
   maxDisplayedEnumValues?: number;
 
   ignoreNamedSchemas: Set<string>;
+  minCharacterLengthToInitSearch?: number;
 
   constructor(raw: RedocRawOptions, defaults: RedocRawOptions = {}) {
     raw = { ...defaults, ...raw };
@@ -250,7 +252,10 @@ export class RedocNormalizedOptions {
 
     this.expandDefaultServerVariables = argValueToBoolean(raw.expandDefaultServerVariables);
     this.maxDisplayedEnumValues = argValueToNumber(raw.maxDisplayedEnumValues);
-    const ignoreNamedSchemas = Array.isArray(raw.ignoreNamedSchemas) ? raw.ignoreNamedSchemas : raw.ignoreNamedSchemas?.split(',').map(s => s.trim());
+    const ignoreNamedSchemas = Array.isArray(raw.ignoreNamedSchemas)
+      ? raw.ignoreNamedSchemas
+      : raw.ignoreNamedSchemas?.split(',').map((s) => s.trim());
     this.ignoreNamedSchemas = new Set(ignoreNamedSchemas);
+    this.minCharacterLengthToInitSearch = argValueToNumber(raw.minCharacterLengthToInitSearch);
   }
 }
