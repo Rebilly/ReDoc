@@ -8,6 +8,8 @@ import { ScrollService } from './ScrollService';
 import { flattenByProp, SECURITY_SCHEMES_SECTION_PREFIX } from '../utils';
 import { GROUP_DEPTH } from './MenuBuilder';
 
+import {RedocNormalizedOptions} from "./RedocNormalizedOptions";
+
 export type MenuItemGroupType = 'group' | 'tag' | 'section';
 export type MenuItemType = MenuItemGroupType | 'operation';
 
@@ -74,11 +76,44 @@ export class MenuStore {
    *
    * @param spec [SpecStore](#SpecStore) which contains page content structure
    * @param scroll scroll service instance used by this menu
+   * @param history
+   * @param options
    */
-  constructor(spec: SpecStore, public scroll: ScrollService, public history: HistoryService) {
+  constructor(spec: SpecStore, public scroll: ScrollService, public history: HistoryService, public options: RedocNormalizedOptions) {
     makeObservable(this);
+    const alphaSort = items => items.sort((a, b) => a.name.localeCompare(b.name));
 
     this.items = spec.contentItems;
+
+    if (this.options.sortTagGroupsAlphabetically) {
+        const groups = this.items.filter(item => item.type === "group");
+        alphaSort(groups);
+        this.items = this.items.filter(item => item.type !== "group").concat(groups);
+    }
+
+    if (this.options.sortTagsAlphabetically) {
+        const tags = this.items.filter(item => item.type === "tag");
+        alphaSort(tags);
+        this.items = this.items.filter(item => item.type !== "tag").concat(tags);
+        this.items.map(item => {
+          if(item.type === "group") {
+            alphaSort(item.items);
+          }});
+    }
+
+    if (this.options.sortOperationsAlphabetically) {
+      this.items.map(item => {
+        if(item.type === "tag") {
+          alphaSort(item.items);
+        } else if (item.type === "group") {
+          item.items.map(groupItem => {
+            if(groupItem.type === "tag") {
+              alphaSort(item.items);
+            }
+          });
+        }
+      });
+    }
 
     this.flatItems = flattenByProp(this.items || [], 'items');
     this.flatItems.forEach((item, idx) => (item.absoluteIdx = idx));

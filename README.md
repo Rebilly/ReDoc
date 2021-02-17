@@ -253,6 +253,9 @@ You can use all of the following options with standalone version on <redoc> tag 
   * **function**: A getter function. Must return a number representing the offset (in pixels).
 * `showExtensions` - show vendor extensions ("x-" fields). Extensions used by ReDoc are ignored. Can be boolean or an array of `string` with names of extensions to display.
 * `sortPropsAlphabetically` - sort properties alphabetically.
+* `sortTagsAlphabetically` - sort tags alphabetically.
+* `sortOperationsAlphabetically` - sort operations alphabetically.
+* `sortTagGroupsAlphabetically` - sort tag groups alphabetically.
 * `suppressWarnings` - if set, warnings are not rendered at the top of documentation (they still are logged to the console).
 * `payloadSampleIdx` - if set, payload sample will be inserted at this index or last. Indexes start from 0.
 * `theme` - ReDoc theme. For details check [theme docs](#redoc-theme-object).
