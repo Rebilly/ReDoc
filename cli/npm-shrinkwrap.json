@@ -243,6 +243,11 @@
         "handlebars": "*"
       }
     },
+    "@types/mime-types": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/@types/mime-types/-/mime-types-2.1.0.tgz",
+      "integrity": "sha1-nKUs2jY/aZxpRmwqbM2q2RPqenM="
+    },
     "@types/mkdirp": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/@types/mkdirp/-/mkdirp-1.0.1.tgz",
@@ -1067,6 +1072,19 @@
       "requires": {
         "bn.js": "^4.0.0",
         "brorand": "^1.0.1"
+      }
+    },
+    "mime-db": {
+      "version": "1.44.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.44.0.tgz",
+      "integrity": "sha512-/NOTfLrsPBVeH7YtFPgsVWveuL+4SjjYxaQ1xtM1KMFj7HdxlBlxeyNLzhyJVx7r4rZGJAZ/6lkKCitSc/Nmpg=="
+    },
+    "mime-types": {
+      "version": "2.1.27",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.27.tgz",
+      "integrity": "sha512-JIhqnCasI9yD+SsmkquHBxTSEuZdQX5BuQnS2Vc7puQQQ+8yiP5AY5uWhpdv4YL4VM5c6iliiYWPgJ/nJQLp7w==",
+      "requires": {
+        "mime-db": "1.44.0"
       }
     },
     "minimalistic-assert": {

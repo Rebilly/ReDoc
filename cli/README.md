@@ -18,5 +18,6 @@ Some examples:
 - Serve with `nativeScrollbars` option set to true: <br> `$ redoc-cli serve [spec] --options.nativeScrollbars`
 - Bundle using custom template (check [default template](https://github.com/Redocly/redoc/blob/master/cli/template.hbs) for reference): <br> `$ redoc-cli bundle [spec] -t custom.hbs`
 - Bundle using custom template and add custom `templateOptions`: <br> `$ redoc-cli bundle [spec] -t custom.hbs --templateOptions.metaDescription "Page meta description"`
+- Allow a specific folder to be statically served: `$ redoc-cli serve [spec] --static resources`
 
 For more details run `redoc-cli --help`.

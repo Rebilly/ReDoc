@@ -11,9 +11,11 @@
     "node": ">= 8"
   },
   "dependencies": {
+    "@types/mime-types": "^2.1.0",
     "chokidar": "^3.4.1",
     "handlebars": "^4.7.6",
     "isarray": "^2.0.5",
+    "mime-types": "^2.1.27",
     "mkdirp": "^1.0.4",
     "mobx": "^6.0.4",
     "node-libs-browser": "^2.2.1",
