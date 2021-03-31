@@ -1,3 +1,5 @@
+import * as cssesc from 'cssesc';
+
 export const IS_BROWSER = typeof window !== 'undefined' && 'HTMLElement' in window;
 
 export function querySelector(selector: string): Element | null {
@@ -5,6 +7,13 @@ export function querySelector(selector: string): Element | null {
     return document.querySelector(selector);
   }
   return null;
+}
+
+export function escapeSelectorValue(
+  value: string,
+  options: Readonly<Partial<cssesc.Options>> = { quotes: 'double' },
+): string {
+  return cssesc(value, options);
 }
 
 /**

@@ -1,5 +1,5 @@
 import { action, observable, makeObservable } from 'mobx';
-import { querySelector } from '../utils/dom';
+import { escapeSelectorValue, querySelector } from '../utils/dom';
 import { SpecStore } from './models';
 
 import { history as historyInst, HistoryService } from './HistoryService';
@@ -162,7 +162,7 @@ export class MenuStore {
    */
   getElementAt(idx: number): Element | null {
     const item = this.flatItems[idx];
-    return (item && querySelector(`[${SECTION_ATTR}="${item.id}"]`)) || null;
+    return (item && querySelector(`[${SECTION_ATTR}="${escapeSelectorValue(item.id)}"]`)) || null;
   }
 
   /**
@@ -174,7 +174,7 @@ export class MenuStore {
     if (item && item.type === 'group') {
       item = item.items[0];
     }
-    return (item && querySelector(`[${SECTION_ATTR}="${item.id}"]`)) || null;
+    return (item && querySelector(`[${SECTION_ATTR}="${escapeSelectorValue(item.id)}"]`)) || null;
   }
 
   /**
@@ -222,7 +222,7 @@ export class MenuStore {
 
     this.activeItemIdx = item.absoluteIdx!;
     if (updateLocation) {
-      this.history.replace(item.id, rewriteHistory);
+      this.history.replace(encodeURI(item.id), rewriteHistory);
     }
 
     item.activate();
