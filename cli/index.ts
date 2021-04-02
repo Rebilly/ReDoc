@@ -26,6 +26,8 @@ import * as mkdirp from 'mkdirp';
 
 import * as YargsParser from 'yargs';
 
+import { URL } from 'url';
+
 interface Options {
   ssr?: boolean;
   watch?: boolean;
@@ -172,8 +174,16 @@ YargsParser.command(
 async function serve(port: number, pathToSpec: string, options: Options = {}) {
   let spec = await loadAndBundleSpec(pathToSpec);
   let pageHTML = await getPageHTML(spec, pathToSpec, options);
+  let isUrl;
+  try {
+    // tslint:disable-next-line
+    new URL(pathToSpec);
+    isUrl = true;
+  } catch (e) {
+    isUrl = false;
+  }
 
-  const server = createServer((request, response) => {
+  const server = createServer(async (request, response) => {
     console.time('GET ' + request.url);
     if (request.url === '/redoc.standalone.js') {
       respondWithGzip(
@@ -189,6 +199,12 @@ async function serve(port: number, pathToSpec: string, options: Options = {}) {
         'Content-Type': 'text/html',
       });
     } else if (request.url === '/spec.json') {
+      if (options.watch && isUrl) {
+        spec = await loadAndBundleSpec(pathToSpec).catch(e => {
+          console.log('Cannot fetch specs:', e);
+          return {};
+        });
+      }
       const specStr = JSON.stringify(spec, null, 2);
       respondWithGzip(specStr, request, response, {
         'Content-Type': 'application/json',
