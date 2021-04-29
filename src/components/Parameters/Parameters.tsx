@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DropdownOrLabel } from '../DropdownOrLabel/DropdownOrLabel';
 import { ParametersGroup } from './ParametersGroup';
+import { OptionsContext } from '../OptionsProvider';
 
 import { UnderlinedHeader } from '../../common-elements';
 
@@ -26,6 +27,8 @@ export interface ParametersProps {
 const PARAM_PLACES = ['path', 'query', 'cookie', 'header'];
 
 export class Parameters extends React.PureComponent<ParametersProps> {
+  static contextType = OptionsContext;
+
   orderParams(params: FieldModel[]): Record<string, FieldModel[]> {
     const res = {};
     params.forEach(param => {
@@ -35,6 +38,7 @@ export class Parameters extends React.PureComponent<ParametersProps> {
   }
 
   render() {
+    const { hideObjectTitle, hideObjectDescription } = this.context;
     const { body, parameters = [] } = this.props;
     if (body === undefined && parameters === undefined) {
       return null;
@@ -50,10 +54,17 @@ export class Parameters extends React.PureComponent<ParametersProps> {
 
     return (
       <>
-        {paramsPlaces.map(place => (
+        {paramsPlaces.map((place) => (
           <ParametersGroup key={place} place={place} parameters={paramsMap[place]} />
         ))}
-        {bodyContent && <BodyContent content={bodyContent} description={bodyDescription} />}
+        {bodyContent && (
+          <BodyContent
+            hideObjectTitle={hideObjectTitle}
+            hideObjectDescription={hideObjectDescription}
+            content={bodyContent}
+            description={bodyDescription}
+          />
+        )}
       </>
     );
   }
@@ -67,15 +78,26 @@ function DropdownWithinHeader(props) {
   );
 }
 
-export function BodyContent(props: { content: MediaContentModel; description?: string }): JSX.Element {
-  const { content, description } = props;
+export function BodyContent(props: {
+  content: MediaContentModel;
+  description?: string;
+  hideObjectTitle?: boolean;
+  hideObjectDescription?: boolean;
+}): JSX.Element {
+  const { content, description, hideObjectTitle, hideObjectDescription } = props;
   return (
     <MediaTypesSwitch content={content} renderDropdown={DropdownWithinHeader}>
       {({ schema }) => {
         return (
           <>
             {description !== undefined && <Markdown source={description} />}
-            <Schema skipReadOnly={true} key="schema" schema={schema} />
+            <Schema
+              skipReadOnly={true}
+              hideObjectTitle={hideObjectTitle}
+              hideObjectDescription={hideObjectDescription}
+              key="schema"
+              schema={schema}
+            />
           </>
         );
       }}

@@ -9,9 +9,13 @@ import { Schema } from '../Schema';
 
 import { Markdown } from '../Markdown/Markdown';
 import { ResponseHeaders } from './ResponseHeaders';
+import { OptionsContext } from '../OptionsProvider';
 
 export class ResponseDetails extends React.PureComponent<{ response: ResponseModel }> {
+  static contextType = OptionsContext;
+
   render() {
+    const { hideObjectTitle, hideObjectDescription } = this.context;
     const { description, headers, content } = this.props.response;
     return (
       <>
@@ -19,7 +23,11 @@ export class ResponseDetails extends React.PureComponent<{ response: ResponseMod
         <ResponseHeaders headers={headers} />
         <MediaTypesSwitch content={content} renderDropdown={this.renderDropdown}>
           {({ schema }) => {
-            return <Schema skipWriteOnly={true} key="schema" schema={schema} />;
+            return <Schema
+              skipWriteOnly={true}
+              hideObjectTitle={hideObjectTitle}
+              hideObjectDescription={hideObjectDescription}
+              key="schema" schema={schema} />;
           }}
         </MediaTypesSwitch>
       </>
