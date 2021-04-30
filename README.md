@@ -256,7 +256,7 @@ You can use all of the following options with standalone version on <redoc> tag 
 * `payloadSampleIdx` - if set, payload sample will be inserted at this index or last. Indexes start from 0.
 * `theme` - ReDoc theme. For details check [theme docs](#redoc-theme-object).
 * `untrustedSpec` - if set, the spec is considered untrusted and all HTML/markdown is sanitized to prevent XSS. **Disabled by default** for performance reasons. **Enable this option if you work with untrusted user data!**
-* `nonce` - if set, the provided value will be injected in every injected HTML element in the `nonce` attribute. Useful with of CSP.
+* `nonce` - if set, the provided value will be injected in every injected HTML element in the `nonce` attribute. Useful with of CSP, see https://webpack.js.org/guides/csp/.
 
 ### `<redoc>` theme object
 * `spacing`

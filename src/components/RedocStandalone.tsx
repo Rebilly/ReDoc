@@ -14,8 +14,6 @@ export interface RedocStandaloneProps {
   onLoaded?: (e?: Error) => any;
 }
 
-declare let __webpack_nonce__: string;
-
 export class RedocStandalone extends React.PureComponent<RedocStandaloneProps> {
   static propTypes = {
     spec: (props, _, componentName) => {
@@ -46,7 +44,9 @@ export class RedocStandalone extends React.PureComponent<RedocStandaloneProps> {
     const normalizedOpts = new RedocNormalizedOptions(options);
 
     if (normalizedOpts.nonce !== undefined) {
-      __webpack_nonce__ = normalizedOpts.nonce;
+      try {
+        __webpack_nonce__ = normalizedOpts.nonce;
+      } catch { } // If we have exception, Webpack was not used to run this.
     }
 
     return (
