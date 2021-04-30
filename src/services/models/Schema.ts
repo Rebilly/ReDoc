@@ -48,7 +48,7 @@ export class SchemaModel {
 
   constraints: string[];
 
-  fields?: FieldModel[];
+  private _fields?: FieldModel[];
   items?: SchemaModel;
 
   oneOf?: SchemaModel[];
@@ -66,21 +66,20 @@ export class SchemaModel {
    * When true forces dereferencing in allOfs even if circular
    */
   constructor(
-    parser: OpenAPIParser,
+    private parser: OpenAPIParser,
     schemaOrRef: Referenced<OpenAPISchema>,
     pointer: string,
     private options: RedocNormalizedOptions,
     isChild: boolean = false,
+    private parent?: SchemaModel,
   ) {
     makeObservable(this);
 
     this.pointer = schemaOrRef.$ref || pointer || '';
-    this.rawSchema = parser.deref(schemaOrRef);
+    this.rawSchema = parser.shallowDeref(schemaOrRef);
+
     this.schema = parser.mergeAllOf(this.rawSchema, this.pointer, isChild);
-
     this.init(parser, isChild);
-
-    parser.exitRef(schemaOrRef);
     parser.exitParents(this.schema);
 
     if (options.showExtensions) {
@@ -97,9 +96,35 @@ export class SchemaModel {
     this.activeOneOf = idx;
   }
 
+  get fields() {
+    if (this.isCircular) {
+      return undefined;
+    }
+
+    if (!this._fields && this.type === 'object') {
+      this._fields = buildFields(this.parser, this.schema, this.pointer, this.options, this);
+    }
+    return this._fields;
+  }
+
+  // check circular refs for lazy fields
+  hasCircularParent($refs: string[]) {
+    if (this.parent) {
+      const res = $refs.some($ref => {
+        const parent = this.parent!;
+        if (parent.pointer === $ref) return true;
+        if (parent.schema.parentRefs?.some?.(parentRef => parentRef === $ref)) return true;
+      })
+      if (res) return true;
+      if (this.parent.hasCircularParent($refs)) return true;
+    }
+
+    return false;
+  }
+
   init(parser: OpenAPIParser, isChild: boolean) {
     const schema = this.schema;
-    this.isCircular = schema['x-circular-ref'];
+    this.isCircular = schema['x-circular-ref'] || this.hasCircularParent([this.pointer, ...(this.schema.parentRefs || [])]);
 
     this.title =
       schema.title || (isNamedDefinition(this.pointer) && JsonPointer.baseName(this.pointer)) || '';
@@ -154,10 +179,8 @@ export class SchemaModel {
       return;
     }
 
-    if (this.type === 'object') {
-      this.fields = buildFields(parser, schema, this.pointer, this.options);
-    } else if (this.type === 'array' && schema.items) {
-      this.items = new SchemaModel(parser, schema.items, this.pointer + '/items', this.options);
+    if (this.type === 'array' && schema.items) {
+      this.items = new SchemaModel(parser, schema.items, this.pointer + '/items', this.options, false, this);
       this.displayType = pluralizeType(this.items.displayType);
       this.displayFormat = this.items.format;
       this.typePrefix = this.items.typePrefix + l('arrayOf');
@@ -199,6 +222,8 @@ export class SchemaModel {
         } as OpenAPISchema,
         this.pointer + '/oneOf/' + idx,
         this.options,
+        false,
+        this
       );
 
       parser.exitRef(variant);
@@ -319,7 +344,7 @@ export class SchemaModel {
     }
 
     this.oneOf = refs.map(({ $ref, name }) => {
-      const innerSchema = new SchemaModel(parser, parser.byRef($ref)!, $ref, this.options, true);
+      const innerSchema = new SchemaModel(parser, parser.byRef($ref)!, $ref, this.options, true, this.parent);
       innerSchema.title = name;
       return innerSchema;
     });
@@ -331,6 +356,7 @@ function buildFields(
   schema: OpenAPISchema,
   $ref: string,
   options: RedocNormalizedOptions,
+  parent?: SchemaModel
 ): FieldModel[] {
   const props = schema.properties || {};
   const additionalProps = schema.additionalProperties;
@@ -360,6 +386,7 @@ function buildFields(
       },
       $ref + '/properties/' + fieldName,
       options,
+      parent
     );
   });
 
@@ -386,6 +413,7 @@ function buildFields(
         },
         $ref + '/additionalProperties',
         options,
+        parent
       ),
     );
   }

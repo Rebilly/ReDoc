@@ -50,7 +50,7 @@ describe('Components', () => {
             }}
           />,
         );
-        expect(filterPropsDeep(toJson(schemaView), ['field.schema.options'])).toMatchSnapshot();
+        expect(filterPropsDeep(toJson(schemaView), ['field.schema.options', 'field.schema.parent', 'field.schema.parser'])).toMatchSnapshot();
       });
     });
   });

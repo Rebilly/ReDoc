@@ -175,8 +175,13 @@ export class OpenAPIParser {
     return obj;
   }
 
-  shalowDeref<T extends object>(obj: OpenAPIRef | T): T {
+  shallowDeref<T extends object>(obj: OpenAPIRef | T): T {
     if (this.isRef(obj)) {
+      const schemaName = getDefinitionName(obj.$ref);
+      if (schemaName && this.options.ignoreNamedSchemas.has(schemaName)) {
+        return { type: 'object', title: schemaName } as T;
+      }
+
       return this.byRef<T>(obj.$ref)!;
     }
     return obj;

@@ -63,6 +63,7 @@ export class FieldModel {
     infoOrRef: Referenced<OpenAPIParameter> & { name?: string; kind?: string },
     pointer: string,
     options: RedocNormalizedOptions,
+    parentSchema?: SchemaModel,
   ) {
     makeObservable(this);
 
@@ -79,7 +80,7 @@ export class FieldModel {
       fieldSchema = info.content[serializationMime] && info.content[serializationMime].schema;
     }
 
-    this.schema = new SchemaModel(parser, fieldSchema || {}, pointer, options);
+    this.schema = new SchemaModel(parser, fieldSchema || {}, pointer, options, false, parentSchema);
     this.description =
       info.description === undefined ? this.schema.description || '' : info.description;
     this.example = info.example || this.schema.example;

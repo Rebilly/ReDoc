@@ -490,13 +490,13 @@ export function mergeParams(
 ): Array<Referenced<OpenAPIParameter>> {
   const operationParamNames = {};
   operationParams.forEach(param => {
-    param = parser.shalowDeref(param);
+    param = parser.shallowDeref(param);
     operationParamNames[param.name + '_' + param.in] = true;
   });
 
   // filter out path params overridden by operation ones with the same name
   pathParams = pathParams.filter(param => {
-    param = parser.shalowDeref(param);
+    param = parser.shallowDeref(param);
     return !operationParamNames[param.name + '_' + param.in];
   });
 
