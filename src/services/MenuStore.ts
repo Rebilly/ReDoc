@@ -24,6 +24,7 @@ export interface IMenuItem {
   parent?: IMenuItem;
   deprecated?: boolean;
   type: MenuItemType;
+  topMargin?: boolean;
 
   deactivate(): void;
   activate(): void;

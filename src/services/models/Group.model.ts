@@ -28,6 +28,7 @@ export class GroupModel implements IMenuItem {
 
   depth: number;
   level: number;
+  topMargin: boolean;
   //#endregion
 
   constructor(

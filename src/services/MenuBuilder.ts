@@ -54,14 +54,31 @@ export class MenuBuilder {
 
     const items: ContentItemModel[] = [];
     const tagsMap = MenuBuilder.getTagsWithOperations(spec);
-    items.push(...MenuBuilder.addMarkdownItems(spec.info.description || '', undefined, 1, options));
+
+    const mdHeadings = MenuBuilder.addMarkdownItems(
+      spec.info.description || '',
+      undefined,
+      1,
+      options,
+    );
+    const mdHeadingsBefore = mdHeadings.filter(h => !options.sectionsAtTheEnd.includes(h.name));
+    const mdHeadingsAfter = mdHeadings.filter(h => options.sectionsAtTheEnd.includes(h.name));
+
+    items.push(...mdHeadingsBefore);
     if (spec['x-tagGroups'] && spec['x-tagGroups'].length > 0) {
       items.push(
         ...MenuBuilder.getTagGroupsItems(parser, undefined, spec['x-tagGroups'], tagsMap, options),
       );
+
+      if (mdHeadingsAfter.length > 0) {
+        mdHeadingsAfter[0].topMargin = true;
+      }
     } else {
       items.push(...MenuBuilder.getTagsItems(parser, tagsMap, undefined, undefined, options));
     }
+
+    items.push(...mdHeadingsAfter);
+
     return items;
   }
 

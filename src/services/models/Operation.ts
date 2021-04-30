@@ -76,6 +76,7 @@ export class OperationModel implements IMenuItem {
   extensions: Record<string, any>;
   isCallback: boolean;
   isWebhook: boolean;
+  topMargin: boolean;
 
   constructor(
     private parser: OpenAPIParser,

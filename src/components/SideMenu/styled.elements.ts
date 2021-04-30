@@ -87,12 +87,12 @@ export const MenuItemUl = styled.ul<{ expanded: boolean }>`
   ${props => (props.expanded ? '' : 'display: none;')};
 `;
 
-export const MenuItemLi = styled.li<{ depth: number }>`
+export const MenuItemLi = styled.li<{ depth: number; topMargin?: boolean }>`
   list-style: none inside none;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
-  ${props => (props.depth === 0 ? 'margin-top: 15px' : '')};
+  ${props => (props.depth === 0 || props.topMargin ? 'margin-top: 15px' : '')};
 `;
 
 export const menuItemDepth = {

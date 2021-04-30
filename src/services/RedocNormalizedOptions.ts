@@ -29,6 +29,7 @@ export interface RedocRawOptions {
   simpleOneOfTypeLabel?: boolean | string;
   payloadSampleIdx?: number;
   expandSingleSchemaField?: boolean | string;
+  sectionsAtTheEnd?: string | string[];
 
   unstable_ignoreMimeParameters?: boolean;
 
@@ -141,6 +142,14 @@ export class RedocNormalizedOptions {
     }
   }
 
+  static normalizeSectionsAtTheEnd(value: RedocRawOptions['sectionsAtTheEnd']): string[] {
+    if (typeof value === 'undefined' || typeof value !== 'string') {
+      return new Array(0);
+    }
+
+    return value.split(',').map(ext => ext.trim());
+  }
+
   static normalizePayloadSampleIdx(value: RedocRawOptions['payloadSampleIdx']): number {
     if (typeof value === 'number') {
       return Math.max(0, value); // always greater or equal than 0
@@ -186,6 +195,7 @@ export class RedocNormalizedOptions {
   simpleOneOfTypeLabel: boolean;
   payloadSampleIdx: number;
   expandSingleSchemaField: boolean;
+  sectionsAtTheEnd: string[];
 
   /* tslint:disable-next-line */
   unstable_ignoreMimeParameters: boolean;
@@ -245,6 +255,7 @@ export class RedocNormalizedOptions {
     this.simpleOneOfTypeLabel = argValueToBoolean(raw.simpleOneOfTypeLabel);
     this.payloadSampleIdx = RedocNormalizedOptions.normalizePayloadSampleIdx(raw.payloadSampleIdx);
     this.expandSingleSchemaField = argValueToBoolean(raw.expandSingleSchemaField);
+    this.sectionsAtTheEnd = RedocNormalizedOptions.normalizeSectionsAtTheEnd(raw.sectionsAtTheEnd);
 
     this.unstable_ignoreMimeParameters = argValueToBoolean(raw.unstable_ignoreMimeParameters);
 
