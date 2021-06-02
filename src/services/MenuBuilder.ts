@@ -62,6 +62,22 @@ export class MenuBuilder {
     } else {
       items.push(...MenuBuilder.getTagsItems(parser, tagsMap, undefined, undefined, options));
     }
+
+    if (options.showSchemas && spec.components?.schemas) {
+      // Ignore entries that are side-effects of Swagger 2 conversion
+      const titles = Object.keys(spec.components?.schemas).filter((title) => {
+        return !/^schema[0-9]*$/.test(title);
+      });
+
+      let markdown = '# Schemas\n\n';
+      titles.sort();
+      for (const title of titles) {
+        markdown += `## ${title}\n`;
+        markdown += `<SchemaDefinition schemaRef="#/components/schemas/${title}" />\n\n`;
+      }
+      items.push(...MenuBuilder.addMarkdownItems(markdown, undefined, 1, options));
+    }
+
     return items;
   }
 

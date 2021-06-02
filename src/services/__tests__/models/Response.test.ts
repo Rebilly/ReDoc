@@ -31,5 +31,12 @@ describe('Models', () => {
       const resp = new ResponseModel(parser, 'default', true, {}, opts);
       expect(resp.type).toEqual('error');
     });
+
+    test('ensure extensions are shown if showExtensions is true', () => {
+      const options = new RedocNormalizedOptions({ showExtensions: true });
+      const resp = new ResponseModel(parser, 'default', true, { 'x-example': {a: 1} } as any, options);
+      expect(Object.keys(resp.extensions).length).toEqual(1);
+      expect(resp.extensions['x-example']).toEqual({a: 1});
+    });
   });
 });

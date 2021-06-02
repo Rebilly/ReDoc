@@ -42,4 +42,18 @@ describe('Menu', () => {
     cy.contains('[role=menuitem].-depth1', 'store').click({ force: true });
     petItem().should('not.have.class', 'active');
   });
+
+  it('should omit Schemas group when showSchemas == false, which is default', () => {
+    cy.get('.menu-content').should('exist');
+    cy.get('[data-item-id="section/Schemas"]').should('not.exist');
+    cy.get('[type=section] [title=HoneyBee]').should('not.exist');
+  });
+
+  it('should include Schemas group and sections when showSchemas == true', () => {
+    cy.visit('e2e/showSchemas.html');
+
+    cy.get('.menu-content').should('exist');
+    cy.get('[data-item-id="section/Schemas"]').should('exist');
+    cy.get('[type=section] [title=HoneyBee]').should('exist');
+  });
 });
