@@ -246,12 +246,22 @@ export class OpenAPIParser {
         subSchema.type !== undefined
       ) {
         console.warn(
-          `Incompatible types in allOf at "${$ref}": "${receiver.type}" and "${subSchema.type}"`,
+          `Incompatible types in allOf at "${$ref}": "${receiver.type}" and "${subSchema.type}"`, //check maybe need delete
         );
       }
 
       if (subSchema.type !== undefined) {
-        receiver.type = subSchema.type;
+        if (Array.isArray(subSchema.type) && receiver.type)
+          receiver.type = receiver.type?.concat(...subSchema.type)
+        else
+          receiver.type = subSchema.type;
+      }
+
+      if (subSchema.enum !== undefined) {
+        if (Array.isArray(subSchema.enum) && receiver.enum)
+          receiver.enum = receiver.enum?.concat(...subSchema.enum)
+        else
+          receiver.enum = subSchema.enum;
       }
 
       if (subSchema.properties !== undefined) {

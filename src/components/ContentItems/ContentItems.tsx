@@ -15,7 +15,7 @@ export class ContentItems extends React.Component<{
   render() {
     const items = this.props.items;
     if (items.length === 0) {
-      return null;
+      return <MiddlePanel compact={false}>Cannot find path or webhooks items</MiddlePanel>;
     }
     return items.map(item => {
       return <ContentItem key={item.id} item={item} />;

@@ -240,7 +240,7 @@ describe('Utils', () => {
       expect(isPrimitiveType(schema)).toEqual(true);
     });
 
-    it('Should return false for array of string which include the null value', () => {
+    it('Should return true for array of string which include the null value', () => {
       const schema = {
         type: ['object', 'string', 'null'],
       };
