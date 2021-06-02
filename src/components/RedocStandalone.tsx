@@ -43,6 +43,12 @@ export class RedocStandalone extends React.PureComponent<RedocStandaloneProps> {
 
     const normalizedOpts = new RedocNormalizedOptions(options);
 
+    if (normalizedOpts.nonce !== undefined) {
+      try {
+        __webpack_nonce__ = normalizedOpts.nonce;
+      } catch { } // If we have exception, Webpack was not used to run this.
+    }
+
     return (
       <ErrorBoundary>
         <StoreBuilder spec={spec} specUrl={specUrl} options={options} onLoaded={onLoaded}>
