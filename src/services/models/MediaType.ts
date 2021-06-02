@@ -44,11 +44,11 @@ export class MediaTypeModel {
         ),
       };
     } else if (isJsonLike(name)) {
-      this.generateExample(parser, info);
+      this.generateExample(parser, info, options.disableDefaultSample);
     }
   }
 
-  generateExample(parser: OpenAPIParser, info: OpenAPIMediaType) {
+  generateExample(parser: OpenAPIParser, info: OpenAPIMediaType, disableDefaultSample: boolean) {
     const samplerOptions = {
       skipReadOnly: this.isRequestType,
       skipNonRequired: this.isRequestType && this.onlyRequiredInSamples,
@@ -74,12 +74,22 @@ export class MediaTypeModel {
         );
       }
     } else if (this.schema) {
+      const sampledData = Sampler.sample(info.schema, samplerOptions, parser.spec);
+
+      if (disableDefaultSample && info.schema) {
+        const properties = parser.deref(info.schema)?.properties  || {};
+        Object.keys(properties).map((propName) => {
+          const property = properties[propName];
+          if (!property.example && sampledData[propName] !== undefined) {
+            delete sampledData[propName];
+          }
+        });
+      }
+
       this.examples = {
         default: new ExampleModel(
           parser,
-          {
-            value: Sampler.sample(info.schema, samplerOptions, parser.spec),
-          },
+          { value: sampledData },
           this.name,
           info.encoding,
         ),

@@ -505,7 +505,6 @@ paths:
                   type: string
                   format: uri
                   description: This URL will be called by the server when the desired event will occur
-                  example: https://myserver.com/send/callback/here
                 eventName:
                   type: string
                   description: Event name for the subscription
@@ -1193,7 +1192,7 @@ x-webhooks:
       summary: New pet
       description: Information about a new pet in the systems
       operationId: newPet
-      tags: 
+      tags:
         - pet
       requestBody:
         content:
