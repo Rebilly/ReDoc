@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: False positive recursion
+  version: '3.0'
+tags:
+  - name: a
+
+components:
+  schemas:
+    id:
+      tags:
+        - a
+      type: object
+      properties:
+        id:
+          type: number
+          description: id
+    pet:
+      tags:
+        - a
+      type: object
+      properties:
+        name:
+          type: string
+        friends:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/pet'
+paths:
+  /documents:
+    get:
+      summary: Example
+      responses:
+        '200':
+          description: Pseudo-recursvie
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/id'
+                  - properties:
+                      second:
+                        allOf:
+                          - $ref: '#/components/schemas/id'
+                          - properties:
+                              third:
+                                allOf:
+                                  - $ref: '#/components/schemas/id'
+                                  - properties:
+                                      something:
+                                        type: string
+        '204':
+          description: Recursvie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pet'

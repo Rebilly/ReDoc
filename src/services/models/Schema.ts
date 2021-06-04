@@ -2,7 +2,7 @@ import { action, observable, makeObservable } from 'mobx';
 
 import { OpenAPIExternalDocumentation, OpenAPISchema, Referenced } from '../../types';
 
-import { OpenAPIParser } from '../OpenAPIParser';
+import {OpenAPIParser, RefCounter} from '../OpenAPIParser';
 import { RedocNormalizedOptions } from '../RedocNormalizedOptions';
 import { FieldModel } from './Field';
 
@@ -20,6 +20,8 @@ import {
 } from '../../utils/';
 
 import { l } from '../Labels';
+
+const schemaCounter = new RefCounter();
 
 // TODO: refactor this model, maybe use getters instead of copying all the values
 export class SchemaModel {
@@ -76,16 +78,26 @@ export class SchemaModel {
     makeObservable(this);
 
     this.pointer = schemaOrRef.$ref || pointer || '';
-    this.rawSchema = parser.deref(schemaOrRef);
-    this.schema = parser.mergeAllOf(this.rawSchema, this.pointer, isChild);
+    let visited = false;
+    if (this.pointer) {
+      visited = schemaCounter.visited(this.pointer);
+      schemaCounter.visit(this.pointer);
+    }
+    if (!visited) {
+      this.rawSchema = parser.deref(schemaOrRef);
+      this.schema = parser.mergeAllOf(this.rawSchema, this.pointer, isChild);
 
-    this.init(parser, isChild);
+      this.init(parser, isChild);
 
-    parser.exitRef(schemaOrRef);
-    parser.exitParents(this.schema);
+      parser.exitRef(schemaOrRef);
+      parser.exitParents(this.schema);
 
-    if (options.showExtensions) {
-      this.extensions = extractExtensions(this.schema, options.showExtensions);
+      if (options.showExtensions) {
+        this.extensions = extractExtensions(this.schema, options.showExtensions);
+      }
+    }
+    if (this.pointer) {
+      schemaCounter.exit(this.pointer);
     }
   }
 

@@ -19,7 +19,7 @@ export type MergedOpenAPISchema = OpenAPISchema & { parentRefs?: string[] };
  * Helper class to keep track of visited references to avoid
  * endless recursion because of circular refs
  */
-class RefCounter {
+export class RefCounter {
   _counter = {};
 
   reset(): void {
@@ -46,6 +46,8 @@ export class OpenAPIParser {
   specUrl?: string;
   spec: OpenAPISpec;
   mergeRefs: Set<string>;
+
+  schemaCounter: RefCounter = new RefCounter();
 
   private _refCounter: RefCounter = new RefCounter();
 
@@ -227,6 +229,7 @@ export class OpenAPIParser {
 
         const resolved = this.deref(subSchema, forceCircular);
         const subRef = subSchema.$ref || undefined;
+        this.exitRef(subSchema);
         const subMerged = this.mergeAllOf(resolved, subRef, forceCircular, used$Refs);
         receiver.parentRefs!.push(...(subMerged.parentRefs || []));
         return {
@@ -321,8 +324,8 @@ export class OpenAPIParser {
     return res;
   }
 
-  exitParents(shema: MergedOpenAPISchema) {
-    for (const parent$ref of shema.parentRefs || []) {
+  exitParents(schema: MergedOpenAPISchema) {
+    for (const parent$ref of schema.parentRefs || []) {
       this.exitRef({ $ref: parent$ref });
     }
   }
