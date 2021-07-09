@@ -42,6 +42,7 @@ export interface RedocRawOptions {
   maxDisplayedEnumValues?: number;
   ignoreNamedSchemas?: string[] | string;
   hideSchemaPattern?: boolean;
+  maxSampleDepth?: number;
 }
 
 function argValueToBoolean(val?: string | boolean, defaultValue?: boolean): boolean {
@@ -163,6 +164,14 @@ export class RedocNormalizedOptions {
     return 2;
   }
 
+  private static normalizeMaxSampleDepth(value?: number | string | undefined): number {
+    if (!isNaN(Number(value))) {
+      return Math.max(0, Number(value));
+    }
+
+    return 10;
+  }
+
   theme: ResolvedThemeInterface;
   scrollYOffset: () => number;
   hideHostname: boolean;
@@ -196,6 +205,7 @@ export class RedocNormalizedOptions {
 
   ignoreNamedSchemas: Set<string>;
   hideSchemaPattern: boolean;
+  maxSampleDepth: number;
 
   constructor(raw: RedocRawOptions, defaults: RedocRawOptions = {}) {
     raw = { ...defaults, ...raw };
@@ -257,5 +267,6 @@ export class RedocNormalizedOptions {
       : raw.ignoreNamedSchemas?.split(',').map((s) => s.trim());
     this.ignoreNamedSchemas = new Set(ignoreNamedSchemas);
     this.hideSchemaPattern = argValueToBoolean(raw.hideSchemaPattern);
+    this.maxSampleDepth = RedocNormalizedOptions.normalizeMaxSampleDepth(raw.maxSampleDepth);
   }
 }

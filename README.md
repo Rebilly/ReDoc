@@ -241,6 +241,7 @@ You can use all of the following options with standalone version on <redoc> tag 
 * `hideSchemaTitles` - do not display schema `title` next to to the type
 * `simpleOneOfTypeLabel` - show only unique oneOf types in the label without titles
 * `lazyRendering` - _Not implemented yet_ ~~if set, enables lazy rendering mode in ReDoc. This mode is useful for APIs with big number of operations (e.g. > 50). In this mode ReDoc shows initial screen ASAP and then renders the rest operations asynchronously while showing progress bar on the top. Check out the [demo](\\redocly.github.io/redoc) for the example.~~
+* `maxSampleDepth` - set the maximum render depth for JSON payload samples (responses and request body). The default value is `10`.
 * `menuToggle` - if true clicking second time on expanded menu item will collapse it, default `true`.
 * `nativeScrollbars` - use native scrollbar for sidemenu instead of perfect-scroll (scrolling performance optimization for big specs).
 * `noAutoAuth` - do not inject Authentication section automatically.
