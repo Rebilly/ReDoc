@@ -17,7 +17,12 @@ import { RequestSamples } from '../RequestSamples/RequestSamples';
 import { ResponsesList } from '../Responses/ResponsesList';
 import { ResponseSamples } from '../ResponseSamples/ResponseSamples';
 import { SecurityRequirements } from '../SecurityRequirement/SecurityRequirement';
-
+import { Contributor } from '../Contributor/Contributor'
+import {
+  InfoSpan,
+  InfoSpanBox,
+  InfoSpanBoxWrap,
+} from './../ApiInfo/styled.elements';
 const OperationRow = styled(Row)`
   backface-visibility: hidden;
   contain: content;
@@ -37,7 +42,7 @@ export class Operation extends React.Component<OperationProps> {
   render() {
     const { operation } = this.props;
 
-    const { name: summary, description, deprecated, externalDocs, isWebhook } = operation;
+    const { name: summary, description, deprecated, externalDocs, isWebhook, contributorDetails} = operation;
     const hasDescription = !!(description || externalDocs);
 
     return (
@@ -50,7 +55,8 @@ export class Operation extends React.Component<OperationProps> {
                 {summary} {deprecated && <Badge type="warning"> Deprecated </Badge>}
                 {isWebhook && <Badge type="primary"> Webhook </Badge>}
               </H2>
-              {options.pathInMiddlePanel && !isWebhook && (
+              <Contributor contributor={contributorDetails}></Contributor>
+                {options.pathInMiddlePanel && !isWebhook && (
                 <Endpoint operation={operation} inverted={true} />
               )}
               {hasDescription && (

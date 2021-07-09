@@ -22,6 +22,7 @@ export interface OpenAPIInfo {
   termsOfService?: string;
   contact?: OpenAPIContact;
   license?: OpenAPILicense;
+  'x-contributorDetails'?: OpenAPIContributorDetail[]; 
 }
 
 export interface OpenAPIServer {
@@ -47,6 +48,7 @@ export type Referenced<T> = OpenAPIRef | T;
 
 export interface OpenAPIPath {
   summary?: string;
+  'x-contributorDetails'?: OpenAPIContributorDetail[]; 
   description?: string;
   get?: OpenAPIOperation;
   put?: OpenAPIOperation;
@@ -272,7 +274,11 @@ export interface OpenAPIContact {
   url?: string;
   email?: string;
 }
-
+export interface OpenAPIContributorDetail {
+  name?: string;
+  email?: string;
+  supportlink?: string;
+}
 export interface OpenAPILicense {
   name: string;
   url?: string;

@@ -601,6 +601,7 @@ export function isRedocExtension(key: string): boolean {
     'x-examples': true,
     'x-ignoredHeaderParameters': true,
     'x-logo': true,
+    'x-contributorDetails': true,
     'x-nullable': true,
     'x-servers': true,
     'x-tagGroups': true,

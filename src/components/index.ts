@@ -3,6 +3,7 @@ export * from './Redoc/Redoc';
 export * from './ApiInfo/ApiInfo';
 export * from './ApiLogo/ApiLogo';
 export * from './ContentItems/ContentItems';
+export * from './Contributor/Contributor';
 export { ApiContentWrap, BackgroundStub, RedocWrap } from './Redoc/styled.elements';
 export * from './Schema/';
 export * from './SearchBox/SearchBox';

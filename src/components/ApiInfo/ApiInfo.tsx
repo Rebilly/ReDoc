@@ -7,6 +7,7 @@ import { MiddlePanel, Row, Section } from '../../common-elements/';
 import { ExternalDocumentation } from '../ExternalDocumentation/ExternalDocumentation';
 import { Markdown } from '../Markdown/Markdown';
 import { StyledMarkdownBlock } from '../Markdown/styled.elements';
+import { Contributor } from '../Contributor/Contributor'
 import {
   ApiHeader,
   DownloadButton,
@@ -100,6 +101,7 @@ export class ApiInfo extends React.Component<ApiInfoProps> {
                 </InfoSpanBoxWrap>
               )) ||
                 null}
+              <Contributor contributor={info['x-contributorDetails']}></Contributor>
             </StyledMarkdownBlock>
             <Markdown source={store.spec.info.summary} data-role="redoc-summary"/>
             <Markdown source={store.spec.info.description} data-role="redoc-description"/>
