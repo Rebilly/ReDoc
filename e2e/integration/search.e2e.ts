@@ -53,4 +53,10 @@ describe('Search', () => {
     getSearchInput().type('int', { force: true });
     cy.get('[data-markjs]').should('exist');
   });
+
+  it('should show proper message when no search results are found', () => {
+    getSearchResults().should('not.exist');
+    getSearchInput().type('xzss', {force: true});
+    getSearchResults().should('exist').should('contain', 'No results found!');
+  })
 });

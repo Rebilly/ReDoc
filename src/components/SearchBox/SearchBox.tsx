@@ -28,6 +28,7 @@ export interface SearchBoxProps {
 
 export interface SearchBoxState {
   results: SearchResult[];
+  noResults: boolean;
   term: string;
   activeItemIdx: number;
 }
@@ -39,6 +40,7 @@ export class SearchBox extends React.PureComponent<SearchBoxProps, SearchBoxStat
     super(props);
     this.state = {
       results: [],
+      noResults: false,
       term: '',
       activeItemIdx: -1,
     };
@@ -47,6 +49,7 @@ export class SearchBox extends React.PureComponent<SearchBoxProps, SearchBoxStat
   clearResults(term: string) {
     this.setState({
       results: [],
+      noResults: false,
       term,
     });
     this.props.marker.unmark();
@@ -55,6 +58,7 @@ export class SearchBox extends React.PureComponent<SearchBoxProps, SearchBoxStat
   clear = () => {
     this.setState({
       results: [],
+      noResults: false,
       term: '',
       activeItemIdx: -1,
     });
@@ -95,6 +99,7 @@ export class SearchBox extends React.PureComponent<SearchBoxProps, SearchBoxStat
   setResults(results: SearchResult[], term: string) {
     this.setState({
       results,
+      noResults: results.length === 0
     });
     this.props.marker.mark(term);
   }
@@ -166,6 +171,8 @@ export class SearchBox extends React.PureComponent<SearchBoxProps, SearchBoxStat
             </SearchResultsBox>
           </PerfectScrollbarWrap>
         )}
+        {(this.state.term) && this.state.noResults ? <SearchResultsBox data-role="search:results">No results found!</SearchResultsBox> : null
+        }
       </SearchWrap>
     );
   }
