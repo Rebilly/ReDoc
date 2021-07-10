@@ -8,8 +8,8 @@ import { SecurityRequirementModel } from '../../services/models/SecurityRequirem
 import { linksCss } from '../Markdown/styled.elements';
 
 const ScopeName = styled.code`
-  font-size: ${props => props.theme.typography.code.fontSize};
-  font-family: ${props => props.theme.typography.code.fontFamily};
+  font-size: ${(props) => props.theme.typography.code.fontSize};
+  font-family: ${(props) => props.theme.typography.code.fontFamily};
   border: 1px solid ${({ theme }) => theme.colors.border.dark};
   margin: 0 3px;
   padding: 0.2em;
@@ -67,18 +67,22 @@ export class SecurityRequirement extends React.PureComponent<SecurityRequirement
     const security = this.props.security;
     return (
       <SecurityRequirementOrWrap>
-        {security.schemes.map(scheme => {
-          return (
-            <SecurityRequirementAndWrap key={scheme.id}>
-              <Link to={scheme.sectionId}>{scheme.id}</Link>
-              {scheme.scopes.length > 0 && ' ('}
-              {scheme.scopes.map(scope => (
-                <ScopeName key={scope}>{scope}</ScopeName>
-              ))}
-              {scheme.scopes.length > 0 && ') '}
-            </SecurityRequirementAndWrap>
-          );
-        })}
+        {security.schemes.length ? (
+          security.schemes.map((scheme) => {
+            return (
+              <SecurityRequirementAndWrap key={scheme.id}>
+                <Link to={scheme.sectionId}>{scheme.id}</Link>
+                {scheme.scopes.length > 0 && ' ('}
+                {scheme.scopes.map((scope) => (
+                  <ScopeName key={scope}>{scope}</ScopeName>
+                ))}
+                {scheme.scopes.length > 0 && ') '}
+              </SecurityRequirementAndWrap>
+            );
+          })
+        ) : (
+          <SecurityRequirementAndWrap>None</SecurityRequirementAndWrap>
+        )}
       </SecurityRequirementOrWrap>
     );
   }
@@ -89,7 +93,7 @@ const AuthHeaderColumn = styled.div`
 `;
 
 const SecuritiesColumn = styled.div`
-  width: ${props => props.theme.schema.defaultDetailsWidth};
+  width: ${(props) => props.theme.schema.defaultDetailsWidth};
   ${media.lessThan('small')`
     margin-top: 10px;
   `}
