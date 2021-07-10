@@ -43,7 +43,7 @@ export class MediaTypesSwitch extends React.Component<MediaTypesSwitchProps> {
     const Wrapper = ({ children }) =>
       this.props.withLabel ? (
         <DropdownWrapper>
-          <DropdownLabel>Content type</DropdownLabel>
+          <DropdownLabel>Content Type / Accept</DropdownLabel>
           {children}
         </DropdownWrapper>
       ) : (
