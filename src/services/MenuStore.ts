@@ -46,7 +46,7 @@ export class MenuStore {
     if (!id) {
       return;
     }
-    scroll.scrollIntoViewBySelector(`[${SECTION_ATTR}="${id}"]`);
+    scroll.scrollIntoViewBySelector(`[${SECTION_ATTR}="${MenuStore.escapeQuotes(id)}"]`);
   }
 
   /**
@@ -152,7 +152,7 @@ export class MenuStore {
         item = this.flatItems.find(i => SECURITY_SCHEMES_SECTION_PREFIX.startsWith(i.id));
         this.activate(item);
       }
-      this.scroll.scrollIntoViewBySelector(`[${SECTION_ATTR}="${id}"]`);
+      this.scroll.scrollIntoViewBySelector(`[${SECTION_ATTR}="${MenuStore.escapeQuotes(id)}"]`);
     }
   };
 
@@ -162,7 +162,7 @@ export class MenuStore {
    */
   getElementAt(idx: number): Element | null {
     const item = this.flatItems[idx];
-    return (item && querySelector(`[${SECTION_ATTR}="${item.id}"]`)) || null;
+    return (item && querySelector(`[${SECTION_ATTR}="${MenuStore.escapeQuotes(item.id)}"]`)) || null;
   }
 
   /**
@@ -174,7 +174,7 @@ export class MenuStore {
     if (item && item.type === 'group') {
       item = item.items[0];
     }
-    return (item && querySelector(`[${SECTION_ATTR}="${item.id}"]`)) || null;
+    return (item && querySelector(`[${SECTION_ATTR}="${MenuStore.escapeQuotes(item.id)}"]`)) || null;
   }
 
   /**
@@ -273,5 +273,13 @@ export class MenuStore {
   dispose() {
     this._unsubscribe();
     this._hashUnsubscribe();
+  }
+
+  private static escapeQuotes(str: string) : string {
+    if (typeof str != 'undefined') {
+      str = str.replace(/["\\]/g, '\\$&');
+    }
+  
+    return str;
   }
 }
