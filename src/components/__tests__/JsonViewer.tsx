@@ -42,5 +42,16 @@ describe('Components', () => {
 
       expect(ClipboardService.copySelected as jest.Mock).toHaveBeenCalled();
     });
+
+    test('Expand/Collapse buttons disappears for flat structures', () => {
+      const flatData = { a: 1, b: '2', c: null };
+      const flatDataComponent = mount(withTheme(<JsonViewer data={flatData} />));
+
+      const expandButton = flatDataComponent.find('div > button[children=" Expand all "]');
+      expect(expandButton.html()).toContain('display: none');
+
+      const collapseButton = flatDataComponent.find('div > button[children=" Collapse all "]');
+      expect(collapseButton.html()).toContain('display: none');
+    });
   });
 });

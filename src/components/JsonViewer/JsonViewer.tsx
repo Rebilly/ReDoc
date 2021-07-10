@@ -26,27 +26,39 @@ class Json extends React.PureComponent<JsonProps> {
     return <CopyButtonWrapper data={this.props.data}>{this.renderInner}</CopyButtonWrapper>;
   }
 
-  renderInner = ({ renderCopyButton }) => (
-    <JsonViewerWrap>
-      <SampleControls>
-        {renderCopyButton()}
-        <button onClick={this.expandAll}> Expand all </button>
-        <button onClick={this.collapseAll}> Collapse all </button>
-      </SampleControls>
-      <OptionsContext.Consumer>
-        {(options) => (
-          <PrismDiv
-            className={this.props.className}
-            // tslint:disable-next-line
-            ref={(node) => (this.node = node!)}
-            dangerouslySetInnerHTML={{
-              __html: jsonToHTML(this.props.data, options.jsonSampleExpandLevel),
-            }}
-          />
-        )}
-      </OptionsContext.Consumer>
-    </JsonViewerWrap>
-  );
+  renderInner = ({ renderCopyButton }) => {
+    const showFoldingButtons = this.props.data && Object.values(this.props.data).some(
+      (value) => typeof value === 'object' && value !== null,
+    );
+
+    return (
+      <JsonViewerWrap>
+        <SampleControls>
+          {renderCopyButton()}
+          <button
+            onClick={this.expandAll}
+            style={{ display: showFoldingButtons ? 'inline-block' : 'none' }}
+          > Expand all </button>
+          <button
+            onClick={this.collapseAll}
+            style={{ display: showFoldingButtons ? 'inline-block' : 'none' }}
+          > Collapse all </button>
+        </SampleControls>
+        <OptionsContext.Consumer>
+          {(options) => (
+            <PrismDiv
+              className={this.props.className}
+              // tslint:disable-next-line
+              ref={(node) => (this.node = node!)}
+              dangerouslySetInnerHTML={{
+                __html: jsonToHTML(this.props.data, options.jsonSampleExpandLevel),
+              }}
+            />
+          )}
+        </OptionsContext.Consumer>
+      </JsonViewerWrap>
+    );
+  };
 
   expandAll = () => {
     const elements = this.node.getElementsByClassName('collapsible');
