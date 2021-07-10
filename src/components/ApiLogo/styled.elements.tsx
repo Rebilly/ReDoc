@@ -14,7 +14,8 @@ export const LogoWrap = styled.div`
 `;
 
 const Link = styled.a`
-  display: inline-block;
+  display: flex;
+  justify-content: center;
 `;
 
 // eslint-disable-next-line react/display-name
