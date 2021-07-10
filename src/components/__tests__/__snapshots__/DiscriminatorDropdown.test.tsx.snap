@@ -52,7 +52,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
       }
       isLast={false}
       key="packSize"
-      showExamples={false}
+      showExamples={true}
     />
     <Field
       field={
@@ -104,7 +104,7 @@ exports[`Components SchemaView discriminator should correctly render discriminat
       isLast={true}
       key="type"
       renderDiscriminatorSwitch={[Function]}
-      showExamples={false}
+      showExamples={true}
     />
   </tbody>
 </styled.table>
