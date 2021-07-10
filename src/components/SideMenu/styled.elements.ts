@@ -68,9 +68,19 @@ export const OperationBadge = styled.span.attrs((props: { type: string }) => ({
 
 function menuItemActiveBg(depth, { theme }: { theme: ResolvedThemeInterface }): string {
   if (depth > 1) {
-    return darken(0.1, theme.sidebar.backgroundColor);
+    return theme.sidebar.level1Items.activeBackgroundColor;
   } else if (depth === 1) {
-    return darken(0.05, theme.sidebar.backgroundColor);
+    return theme.sidebar.groupItems.activeBackgroundColor;
+  } else {
+    return '';
+  }
+}
+
+function menuItemActiveTextColor(depth, { theme }: { theme: ResolvedThemeInterface }): string {
+  if (depth > 1) {
+    return theme.sidebar.level1Items.activeTextColor;
+  } else if (depth === 1) {
+    return theme.sidebar.groupItems.activeTextColor;
   } else {
     return '';
   }
@@ -108,7 +118,7 @@ export const menuItemDepth = {
     font-size: 0.929em;
     text-transform: ${({ theme }) => theme.sidebar.level1Items.textTransform};
     &:hover {
-      color: ${props => props.theme.sidebar.activeTextColor};
+      color: ${props => props.theme.sidebar.level1Items.activeTextColor};
     }
   `,
   2: css`
@@ -145,6 +155,7 @@ export const MenuItemLabel = styled.label.attrs((props: MenuItemLabelType) => ({
   ${props => (props.deprecated && deprecatedCss) || ''};
 
   &:hover {
+    color: ${props => menuItemActiveTextColor(props.depth, props)};
     background-color: ${props => menuItemActiveBg(props.depth, props)};
   }
 

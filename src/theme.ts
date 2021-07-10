@@ -139,9 +139,13 @@ const defaultTheme: ThemeInterface = {
         ? theme.sidebar.textColor
         : theme.colors.primary.main,
     groupItems: {
-      textTransform: 'uppercase',
+      activeBackgroundColor: theme => darken(0.1, theme.sidebar.backgroundColor),
+      activeTextColor: theme => theme.sidebar.activeTextColor,
+      textTransform: 'uppercase'
     },
     level1Items: {
+      activeBackgroundColor: theme => darken(0.05, theme.sidebar.backgroundColor),
+      activeTextColor: theme => theme.sidebar.activeTextColor,
       textTransform: 'none',
     },
     arrow: {
@@ -315,9 +319,13 @@ export interface ResolvedThemeInterface {
     textColor: string;
     activeTextColor: string;
     groupItems: {
+      activeBackgroundColor: string;
+      activeTextColor: string;
       textTransform: string;
     };
     level1Items: {
+      activeBackgroundColor: string;
+      activeTextColor: string;
       textTransform: string;
     };
     arrow: {

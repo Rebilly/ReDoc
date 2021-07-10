@@ -294,21 +294,24 @@ You can use all of the following options with standalone version on <redoc> tag 
     * `color`: # COMPUTED: colors.primary.main
     * `visited`: # COMPUTED: typography.links.color
     * `hover`: # COMPUTED: lighten(0.2 typography.links.color)
-* `menu`
+* `sidebar`
   * `width`: '260px'
   * `backgroundColor`: '#fafafa'
   * `textColor`: '#333333'
-  * `activeTextColor`: # COMPUTED: theme.menu.textColor (if set by user) or theme.colors.primary.main
+  * `activeTextColor`: # COMPUTED: theme.sidebar.backgroundColor
   * `groupItems` # Group headings
+    * `activeBackgroundColor`: # COMPUTED: theme.sidebar.textColor (if set by user) or theme.colors.primary.main
+    * `activeTextColor`: # COMPUTED: theme.sidebar.textColor (if set by user) or theme.colors.primary.main
     * `textTransform`: 'uppercase'
   * `level1Items` # Level 1 items like tags or section 1st level items
+    * `activeTextColor`: # COMPUTED: theme.sidebar.textColor (if set by user) or theme.colors.primary.main
     * `textTransform`: 'none'
-  * `arrow` # menu arrow
+  * `arrow` # sidebar arrow
     * `size`: '1.5em'
-    * `color`: # COMPUTED: theme.menu.textColor
+    * `color`: # COMPUTED: theme.sidebar.textColor
 * `logo`
-  * `maxHeight`: # COMPUTED: menu.width
-  * `maxWidth`: # COMPUTED: menu.width
+  * `maxHeight`: # COMPUTED: sidebar.width
+  * `maxWidth`: # COMPUTED: sidebar.width
   * `gutter`: '2px' # logo image padding
 * `rightPanel`
   * `backgroundColor`: '#263238'
