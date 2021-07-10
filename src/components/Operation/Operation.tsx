@@ -20,8 +20,6 @@ import { SecurityRequirements } from '../SecurityRequirement/SecurityRequirement
 
 const OperationRow = styled(Row)`
   backface-visibility: hidden;
-  contain: content;
-  overflow: hidden;
 `;
 
 const Description = styled.div`
