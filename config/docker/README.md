@@ -45,9 +45,10 @@ Another issue with OpenShift is that the default exposed port `80` cannot be use
 
 - `PAGE_TITLE` (default `"ReDoc"`) - page title
 - `PAGE_FAVICON` (default `"favicon.png"`) - URL to page favicon
+- `BASE_PATH` (optional) - prepend favicon & standalone bundle with this path
 - `SPEC_URL` (default `"http://petstore.swagger.io/v2/swagger.json"`) - URL to spec
 - `PORT` (default `80`) - nginx port
-- `REDOC_OPTIONS` - [`<redoc>` tag attributes](https://github.com/Redocly/redoc#redoc-tag-attributes)
+- `REDOC_OPTIONS` (optional) - [`<redoc>` tag attributes](https://github.com/Redocly/redoc#redoc-tag-attributes)
 
 ## Build
 
