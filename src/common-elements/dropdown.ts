@@ -43,30 +43,26 @@ export const StyledDropdown = styled(Dropdown)`
       display: inline-flex;
       padding: 0;
       height: auto;
-      padding-right: 20px;
       position: relative;
-      margin-bottom: 5px;
     }
     .dropdown-selector-value {
       font-family: ${(props) => props.theme.typography.headings.fontFamily};
       position: relative;
       font-size: 0.929em;
       width: 100%;
-      line-height: 1;
+      line-height: normal;
       vertical-align: middle;
       color: #263238;
       left: 0;
       transition: color 0.25s ease, text-shadow 0.25s ease;
     }
     .dropdown-arrow {
-      position: absolute;
-      right: 3px;
-      top: 50%;
-      transform: translateY(-50%);
+      position: static;
       border-color: ${(props) => props.theme.colors.primary.main} transparent transparent;
       border-style: solid;
       border-width: 0.35em 0.35em 0;
       width: 0;
+      height: 0;
       svg {
         display: none;
       }
