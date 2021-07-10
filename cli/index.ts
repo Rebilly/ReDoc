@@ -61,6 +61,12 @@ YargsParser.command(
       type: 'boolean',
     });
 
+    yargs.option('h', {
+      alias: 'host',
+      type: 'string',
+      default: '127.0.0.1',
+    });
+
     yargs.option('p', {
       alias: 'port',
       type: 'number',
@@ -93,7 +99,7 @@ YargsParser.command(
     };
 
     try {
-      await serve(argv.port as number, argv.spec as string, config);
+      await serve(argv.host as string, argv.port as number, argv.spec as string, config);
     } catch (e) {
       handleError(e);
     }
@@ -167,7 +173,7 @@ YargsParser.command(
     describe: 'ReDoc options, use dot notation, e.g. options.nativeScrollbars',
   }).argv;
 
-async function serve(port: number, pathToSpec: string, options: Options = {}) {
+async function serve(host: string, port: number, pathToSpec: string, options: Options = {}) {
   let spec = await loadAndBundleSpec(isURL(pathToSpec) ? pathToSpec : resolve(pathToSpec));
   let pageHTML = await getPageHTML(spec, pathToSpec, options);
   const server = createServer((request, response) => {
@@ -201,7 +207,7 @@ async function serve(port: number, pathToSpec: string, options: Options = {}) {
 
   console.log();
 
-  server.listen(port, () => console.log(`Server started: http://127.0.0.1:${port}`));
+  server.listen(port, host, () => console.log(`Server started: http://${host}:${port}`));
 
   if (options.watch && existsSync(pathToSpec)) {
     const pathToSpecDirectory = resolve(dirname(pathToSpec));
