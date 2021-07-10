@@ -38,6 +38,8 @@ const SecurityRequirementAndWrap = styled.span`
 `;
 
 const SecurityRequirementOrWrap = styled.span`
+  display: block;
+
   &:before {
     content: '( ';
     font-weight: bold;
