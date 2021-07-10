@@ -31,8 +31,8 @@ export const Tabs = styled(ReactTabs)`
       font-weight: bold;
 
       &.react-tabs__tab--selected {
-        color: ${props => props.theme.colors.text.primary};
-        background: ${({ theme }) => theme.rightPanel.textColor};
+        color: ${props => props.theme.rightPanel.tabs.selectedTextColor};
+        background: ${({ theme }) => theme.rightPanel.tabs.selectedBackgroundColor};
         &:focus {
           outline: auto;
         }

@@ -121,10 +121,7 @@ export class MarkdownRenderer {
       prevRegexp = regexp;
       prevPos = currentPos;
     }
-    prevHeading.description = rawText
-      .substring(prevPos)
-      .replace(prevRegexp, '')
-      .trim();
+    prevHeading.description = rawText.substring(prevPos).replace(prevRegexp, '').trim();
   }
 
   headingRule = (

@@ -158,6 +158,16 @@ const defaultTheme: ThemeInterface = {
     backgroundColor: '#263238',
     width: '40%',
     textColor: '#ffffff',
+    tabs: {
+      selectedBackgroundColor: theme => theme.rightPanel.textColor,
+      selectedTextColor: theme => theme.colors.text.primary,
+    },
+    endpoint: {
+      backgroundColor: '#fafafa',
+      textColor: theme => theme.colors.primary.main,
+      serverBackgroundColor: '#ffffff',
+      serverTextColor: theme => theme.colors.text.primary,
+    },
   },
   codeBlock: {
     backgroundColor: ({ rightPanel }) => darken(0.1, rightPanel.backgroundColor),
@@ -334,6 +344,16 @@ export interface ResolvedThemeInterface {
     backgroundColor: string;
     textColor: string;
     width: string;
+    tabs: {
+      selectedBackgroundColor: string;
+      selectedTextColor: string;
+    };
+    endpoint: {
+      backgroundColor: string;
+      textColor: string;
+      serverBackgroundColor: string;
+      serverTextColor: string;
+    };
   };
   codeBlock: {
     backgroundColor: string;
