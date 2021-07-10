@@ -5,6 +5,7 @@ import { OpenAPIParser } from '../OpenAPIParser';
 export interface SecurityScheme extends OpenAPISecurityScheme {
   id: string;
   sectionId: string;
+  displayName: string;
   scopes: string[];
 }
 
@@ -23,11 +24,13 @@ export class SecurityRequirementModel {
           console.warn(`Non existing security scheme referenced: ${id}. Skipping`);
           return undefined;
         }
-
+        const displayName = scheme['x-displayName'] || id;
+               
         return {
           ...scheme,
           id,
           sectionId: SECURITY_SCHEMES_SECTION_PREFIX + id,
+          displayName,
           scopes,
         };
       })
