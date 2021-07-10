@@ -22,7 +22,7 @@ export const H1 = styled.h1`
 
 export const H2 = styled.h2`
   ${headerCommonMixin(2)};
-  color: black;
+  color: ${({ theme }) => theme.colors.primary.main};
 
   ${extensionsHook('H2')};
 `;
